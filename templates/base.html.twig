@@ -16,19 +16,17 @@
         {% block body %}
             {% block header %}
                 <!-- ======= Header ======= -->
+                {# TODO: check why when touch activated for mobile old nav shows #}
                 <header>
-                    <nav class="navbar navbar-expand-md navbar-dark sticky-md-top bg-dark">
+                    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
                         <div class="container-fluid justify-content-around">
-                            <a class="navbar-brand" href="#">
+                            <a class="navbar-brand d-none d-md-flex" href="#">
                                 <h1>SnowTricks</h1>
                             </a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarCollapse">
-                                <ul class="col navbar-nav me-0 mb-2 mb-md-0 justify-content-end">
+                            <div class="container-fluid">
+                                <ul class="col navbar-nav me-0 mb-2 mb-md-0 justify-content-end d-none d-md-flex">
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                        <a class="nav-link active " aria-current="page" href="#">Home</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Tricks</a>
@@ -38,6 +36,21 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Sign Up</a>
+                                    </li>
+                                </ul>
+                                <ul class="col-12 navbar-nav me-0 mb-2 mb-md-0 justify-content-around d-flex d-md-none flex-row">
+                                    <li class="nav-item">
+                                        <a href="#" class="text-white"><i class="fas fa-home text-white" ></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="text-white"><i class="fas fa-bookmark"></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="text-white"><i class="fas fa-sign-in-alt"></i></a>
+                                        {#
+                                            TODO: if user logged in :
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        #}
                                     </li>
                                 </ul>
                             </div>
