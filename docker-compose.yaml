@@ -1,5 +1,21 @@
 version: '3.7'
 services:
+    nginx-service:
+        image: nginx:stable-alpine
+        container_name: nginx-container
+        ports:
+        -  "8000:80"
+        -  "8000:80"
+        volumes:
+        -   ./app:/var/www/project
+        -   ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            -   php74-service
+            -   database
+
+
+    php74-service:
+
     database:
         image: 'mysql:latest'
         environment:
@@ -11,3 +27,5 @@ services:
             # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
             # See https://docs.docker.com/compose/compose-file/#ports for more information.
             - '3306'
+
+    node-service:
