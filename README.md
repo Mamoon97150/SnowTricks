@@ -23,3 +23,9 @@ Vous pouvez vérifier les pré-requis (sauf Docker et Docker-compose) avec la co
     docker-compose up -d
     symfony serve -d
 ```
+
+### Lancer les tests
+
+```bash
+php bin/phpunit --testdox
+```
