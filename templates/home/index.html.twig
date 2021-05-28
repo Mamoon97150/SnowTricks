@@ -19,13 +19,15 @@
                 <h2 class="pb-2 display-5">Tricks</h2>
                 <p>Check our list of tricks and add your own !</p>
 
-                <div class="row row-cols-1 row-cols-lg-5 align-items-stretch g-4 py-5">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5">
                     <div class="col custom">
-                        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
-                            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background: url('build/images/background.5194caca.jpg') no-repeat center; background-size: cover">
+                            <div class="d-flex flex-column h-100 p-4 pb-3 text-white text-shadow-1">
                                 <ul class="d-flex list-unstyled mt-auto">
-                                    <li class="me-auto">
-                                        <p class="h4">Trick</p>
+                                    <li class="me-auto me-lg-4">
+                                        <a href="#modal" class="text-white text-decoration-none" data-lightbox>
+                                            <p class="h4">Trick</p>
+                                        </a>
                                     </li>
                                     <li class="d-flex align-items-center me-3">
                                         <i class="fas fa-pencil-alt"></i>
@@ -36,18 +38,24 @@
                                 </ul>
                             </div>
                         </div>
+                        <div id="modal" class="lightbox-hide">
+                            <div class="modal-content">
+                                <h3>Welcome!</h3>
+                                <p>Sign in to your account.</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col custom">
                         <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
                             <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                                <ul class="d-flex list-unstyled mt-auto">
-                                    <li class="me-auto">
+                                <ul class="d-flex list-unstyled mt-auto justify-content-between">
+                                    <li class="col-auto me-auto me-lg-4">
                                         <p class="h4">Trick</p>
                                     </li>
-                                    <li class="d-flex align-items-center me-3">
+                                    <li class="col-auto">
                                         <i class="fas fa-pencil-alt"></i>
                                     </li>
-                                    <li class="d-flex align-items-center">
+                                    <li class="col-auto">
                                         <i class="fas fa-trash-alt"></i>
                                     </li>
                                 </ul>
