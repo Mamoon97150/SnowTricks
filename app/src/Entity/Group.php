@@ -26,12 +26,7 @@ class Group
     private ?string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $description;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="groupId")
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="group")
      */
     private $tricks;
 
@@ -59,18 +54,6 @@ class Group
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
