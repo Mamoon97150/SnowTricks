@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 services:
     nginx-service:
         image: nginx:stable-alpine
@@ -11,6 +11,8 @@ services:
         depends_on:
             -   php74-service
             -   mysql-service
+        networks:
+            dev:
 
     php74-service:
         build:
@@ -21,31 +23,33 @@ services:
             -   "9000:9000"
         volumes:
             -   ./app:/var/www/project
+        networks:
+            dev:
 
     mysql-service:
-        image: mysql
+        image: mysql:latest
         container_name: mysql-container
-        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: password
-            MYSQL_DATABASE: main
-        ports:
-            # To allow the host machine to access the ports below, modify the lines below.
-            # For example, to allow the host to connect to port 3306 on the container, you would change
-            # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
-            # See https://docs.docker.com/compose/compose-file/#ports for more information.
-            - '4306:3306'
+            MYSQL_USER: admin
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_PASSWORD: secret
+        networks:
+            dev:
         volumes:
             -   ./mysql:/var/lib/mysql
 
     phpmyadmin:
         image: phpmyadmin
         restart: always
+        depends_on:
+            -   mysql-service
         ports:
             - "8080:80"
         environment:
-            - PMA_ARBITRARY=1
+            - PMA_HOST=mysql-service
+        networks:
+            dev:
 
     node-service:
         image: node:latest
@@ -59,3 +63,11 @@ services:
         expose:
             - "8081"
         command: "npm start"
+        networks:
+            dev:
+
+networks:
+    dev:
+
+volumes:
+    db-data:
