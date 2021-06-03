@@ -26,13 +26,13 @@
                             <div class="container-fluid">
                                 <ul class="col navbar-nav me-0 mb-2 mb-md-0 justify-content-end d-none d-md-flex">
                                     <li class="nav-item">
-                                        <a class="nav-link active " aria-current="page" href="#">Home</a>
+                                        <a class="nav-link active " aria-current="page" href="{{ path('app_home') }}">Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Tricks</a>
+                                        <a class="nav-link" href="{{ path('app_home') }}#services">Tricks</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Sign In</a>
+                                        <a class="nav-link" href="{{ path('app_login') }}">Sign In</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Sign Up</a>
@@ -40,17 +40,18 @@
                                 </ul>
                                 <ul class="col-12 navbar-nav me-0 mb-2 mb-md-0 justify-content-around d-flex d-md-none flex-row">
                                     <li class="nav-item">
-                                        <a href="#" class="text-white"><i class="fas fa-home text-white" ></i></a>
+                                        <a href="{{ path('app_home') }}" class="text-white"><i class="fas fa-home text-white" ></i></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="text-white"><i class="fas fa-bookmark"></i></a>
+                                        <a href="{{ path('app_home') }}#services" class="text-white"><i class="fas fa-bookmark"></i></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="text-white"><i class="fas fa-sign-in-alt"></i></a>
-                                        {#
-                                            TODO: if user logged in :
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        #}
+                                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                            <a href="{{ path('app_logout') }}" class="text-white"><i class="fas fa-sign-out-alt"></i></a>
+                                        {% else %}
+                                            <a href="{{ path('app_login') }}" class="text-white"><i class="fas fa-sign-in-alt"></i></a>
+                                        {% endif %}
+
                                     </li>
                                 </ul>
                             </div>
@@ -59,7 +60,7 @@
                 </header>
                 <!-- End Header -->
             {% endblock %}
-            <main class="container-fluid p-0">
+            <main class="container-fluid p-0 {{ login }}">
                 {% block main %}{% endblock %}
             </main>
 
@@ -67,15 +68,12 @@
                 <!-- ======= Footer ======= -->
                 <footer id="footer" class="bg-dark text-white text-center">
                     <div class="container">
-                        <div class="copyright">
-                            &copy; Copyright <strong><span>Kelly</span></strong>. All Rights Reserved
-                        </div>
                         <div class="credits">
                             <!-- All the links in the footer should remain intact. -->
                             <!-- You can delete the links only if you purchased the pro version. -->
                             <!-- Licensing information: https://bootstrapmade.com/license/ -->
                             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/kelly-free-bootstrap-cv-resume-html-template/ -->
-                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                            Designed by <a href="">Djamina Marboeuf</a>
                         </div>
                     </div>
                 </footer><!-- End  Footer -->
