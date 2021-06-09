@@ -10,7 +10,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     // TODO: add forgotten password method
-    // TODO add sign up method
 
     /**
      * @Route("/login", name="app_login")

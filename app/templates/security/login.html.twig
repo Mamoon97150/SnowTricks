@@ -38,13 +38,13 @@
                         <span>Remember me</span>
                     </label>
 
-                    <a href="reset.html" class="forgot-btn pull-right">Forgot password?</a>
+                    <a href="{{ path('app_forgot_password_request') }}" class="forgot-btn pull-right">Forgot password?</a>
                 </div>
                 <div class="form-group mb-3 d-grid gap-2">
                     <button type="submit" class="btn btn-info">Login</button>
                 </div>
                 <div class="form-group">
-                    <p class="text-muted text-center">Do not have an account? <a href="signup.html">Sign Up</a></p>
+                    <p class="text-muted text-center">Do not have an account? <a href="'{{ path('app_register') }}">Sign Up</a></p>
                 </div>
 
                 {% endif %}

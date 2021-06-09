@@ -25,7 +25,7 @@ class Medias
     /**
      * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="medias")
      */
-    private $trick;
+    private ?Tricks $trick;
 
     public function getId(): ?int
     {
