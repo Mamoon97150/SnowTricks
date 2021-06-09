@@ -17,7 +17,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
-    //TODO: check why max upload at 2mo
     /**
      * @Route("/register", name="app_register")
      */

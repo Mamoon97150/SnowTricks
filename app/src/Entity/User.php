@@ -64,7 +64,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
      */
-    private $messages;
+    private Collection $messages;
 
     public function __construct()
     {
