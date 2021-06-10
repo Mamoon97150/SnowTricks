@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% set login="trick-bg" %}
+{% block main %}
+    <section class="col-10 bg-white mx-auto">
+        <div class="">
+            <div>
+                <header {#style="background: url('{{ featured }}')"#} class="w-100 h-50">
+                    <h2 class="h2">{{ trick.name }}</h2>
+                </header>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 mx-auto">
+                {{ trick.description }}
+            </div>
+            <div class="col-6 mx-auto text-center">
+
+                {{ trick.group.name | upper }}
+                {{ trick.createdAt | date }}
+                {% if trick.createdAt != trick.updatedAt %}
+                    {{ trick.updatedAt }}
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="row">
+            {# TODO: discussion form #}
+        </div>
+        <div class="row">
+            {# TODO: discussion list #}
+        </div>
+    </section>
+{% endblock %}

@@ -17,8 +17,7 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $repository= $this->getDoctrine()->getRepository(Tricks::class);
-        $tricks = $repository->findAll();
+        $tricks= $this->getDoctrine()->getRepository(Tricks::class)->findAll();
 
         return $this->render('home/index.html.twig', [
             'tricks' => $tricks,

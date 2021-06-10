@@ -27,6 +27,11 @@ class Medias
      */
     private ?Tricks $trick;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $featured= false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Medias
     public function setTrick(?Tricks $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function getFeatured(): ?bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): self
+    {
+        $this->featured = $featured;
 
         return $this;
     }

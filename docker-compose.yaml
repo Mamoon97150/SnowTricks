@@ -53,17 +53,17 @@ services:
             dev:
 
     node-service:
-        image: node:latest
+        image: node:current-alpine
         container_name: node-container
         user: "node"
         working_dir: /var/www/project
         environment:
-            - NODE_ENV=production
+            - NODE_ENV=dev
         volumes:
             - ./app:/var/www/project
         expose:
             - "8081"
-        command: "npm start"
+        command: "npm run watch"
         networks:
             dev:
 

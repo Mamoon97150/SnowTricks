@@ -27,7 +27,7 @@
                             <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                                 <ul class="d-flex list-unstyled mt-auto">
                                     <li class="me-auto">
-                                        <a href="{{ path('trick_show', {trickId: trick.id}) }}" class="h4 text-white">{{ trick.name }}</a>
+                                        <a href="{{ path('trick_show', {id: trick.id}) }}" class="h4 text-white">{{ trick.name }}</a>
                                     </li>
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                         <li class="d-flex align-items-center me-3">

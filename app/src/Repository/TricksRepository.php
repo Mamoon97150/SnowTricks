@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +48,28 @@ class TricksRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByIdJoinedToGroup(int $trickId): ?Tricks
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT t, g
+            FROM App\Entity\Tricks t
+            INNER JOIN t.group g
+            WHERE t.id = :id"
+        )->setParameter('id', $trickId);
+
+       /* $query = $this->createQueryBuilder('t')
+            ->innerJoin('t.group', 'g')
+            ->where('t.id = :id')
+            ->setParameter('id', $trickId)
+           return $query->getQuery()->execute();
+        ;*/
+
+
+        return $query->getOneOrNullResult();
+    }
 }
