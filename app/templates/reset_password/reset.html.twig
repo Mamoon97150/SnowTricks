@@ -1,44 +1,46 @@
 {% extends 'base.html.twig' %}
-{% set login="auth justify-content-center" %}
+
 {% block title %}Reset your password{% endblock %}
 
 {% block main %}
-<div class="auth-container align-items-center justify-content-center">
-    <div class="card">
-        <div class="auth-content">
-            <h1 class="h2 mb-3 font-weight-normal">Reset your password</h1>
+    <main class="container-fluid p-0 auth justify-content-center">
+        <div class="auth-container align-items-center justify-content-center">
+            <div class="card">
+                <div class="auth-content">
+                    <h1 class="h2 mb-3 font-weight-normal">Reset your password</h1>
 
-            {{ form_start(resetForm) }}
-                <div class="form-group form-floating mb-3">
-                    <div class="form-group form-floating mb-3">
-                        {% if form_errors(resetForm.plainPassword.first) %}
-                            {{ form_widget(resetForm.plainPassword.first, {'attr': {'class':'form-control underlined is-invalid', 'placeholder': 'Enter your Password'}}) }}
-                        {% else %}
-                            {{ form_widget(resetForm.plainPassword.first, {'attr': {'class':'form-control underlined', 'placeholder': 'Enter your Password'}}) }}
-                        {% endif %}
-                        {{ form_label(resetForm.plainPassword.first, 'New Password') }}
-                        <div class="invalid-feedback">
-                            {{ form_errors(resetForm.plainPassword.first) }}
-                        </div>
-                    </div>
-                    <div class="form-group form-floating mb-3">
-                        {% if form_errors(resetForm.plainPassword.second) %}
-                            {{ form_widget(resetForm.plainPassword.second, {'attr': {'class':'form-control underlined is-invalid', 'placeholder': 'Enter your Password'}}) }}
-                        {% else %}
-                            {{ form_widget(resetForm.plainPassword.second, {'attr': {'class':'form-control underlined', 'placeholder': 'Enter your Password'}}) }}
-                        {% endif %}
-                        {{ form_label(resetForm.plainPassword.second, 'Repeat Password') }}
-                        <div class="invalid-feedback">
-                            {{ form_errors(resetForm.plainPassword.second) }}
-                        </div>
-                    </div>
+                    {{ form_start(resetForm) }}
+                        <div class="form-group form-floating mb-3">
+                            <div class="form-group form-floating mb-3">
+                                {% if form_errors(resetForm.plainPassword.first) %}
+                                    {{ form_widget(resetForm.plainPassword.first, {'attr': {'class':'form-control underlined is-invalid', 'placeholder': 'Enter your Password'}}) }}
+                                {% else %}
+                                    {{ form_widget(resetForm.plainPassword.first, {'attr': {'class':'form-control underlined', 'placeholder': 'Enter your Password'}}) }}
+                                {% endif %}
+                                {{ form_label(resetForm.plainPassword.first, 'New Password') }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(resetForm.plainPassword.first) }}
+                                </div>
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                {% if form_errors(resetForm.plainPassword.second) %}
+                                    {{ form_widget(resetForm.plainPassword.second, {'attr': {'class':'form-control underlined is-invalid', 'placeholder': 'Enter your Password'}}) }}
+                                {% else %}
+                                    {{ form_widget(resetForm.plainPassword.second, {'attr': {'class':'form-control underlined', 'placeholder': 'Enter your Password'}}) }}
+                                {% endif %}
+                                {{ form_label(resetForm.plainPassword.second, 'Repeat Password') }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(resetForm.plainPassword.second) }}
+                                </div>
+                            </div>
 
+                        </div>
+                        <div class="form-group mb-3 d-grid gap-2">
+                            <button type="submit" class="btn btn-info">Reset password</button>
+                        </div>
+                    {{ form_end(resetForm) }}
                 </div>
-                <div class="form-group mb-3 d-grid gap-2">
-                    <button type="submit" class="btn btn-info">Reset password</button>
-                </div>
-            {{ form_end(resetForm) }}
+            </div>
         </div>
-    </div>
-</div>
+    </main>
 {% endblock %}

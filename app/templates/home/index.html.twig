@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %} SnowTricks{% endblock %}
-{% set login="" %}
 {% block main %}
+    <main class="container-fluid p-0">
         <!-- ======= Hero Section ======= -->
         <div class="hero d-flex align-items-end row m-0">
             <div class="col-10 bg-info text-white container-fluid d-flex flex-column align-items-center" data-aos="zoom-in" data-aos-delay="100">
@@ -17,8 +17,13 @@
         <!-- ======= Services Section ======= -->
         <section id="services" class="services">
             <div class="container px-4 py-5" id="custom-cards">
-                <h2 class="pb-2 display-5">Tricks</h2>
-                <p>Check our list of tricks and add your own !</p>
+                <div class="row justify-content-between">
+                    <h2 class="pb-2 display-4 col-9 col-md-8">Tricks</h2>
+                    <a href="{{ path('trick_add') }}" class="col-2 btn btn-outline-dark d-none d-md-flex h-25 justify-content-center pb-1">Add trick</a>
+                    <a href="{{ path('trick_add') }}" class="col-2 btn btn-outline-dark d-flex d-md-none justify-content-center"><i class="fas fa-plus-circle fa-3x"></i></a>
+                    <p>Check our list of tricks and add your own !</p>
+                </div>
+
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5">
                 {% for trick in tricks  %}
@@ -31,10 +36,10 @@
                                     </li>
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                         <li class="d-flex align-items-center me-3">
-                                            <i class="fas fa-pencil-alt"></i>
+                                            <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-white"><i class="fas fa-pencil-alt"></i></a>
                                         </li>
                                         <li class="d-flex align-items-center">
-                                            <i class="fas fa-trash-alt"></i>
+                                            <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-white"><i class="fas fa-trash-alt"></i></a>
                                         </li>
                                     {% endif %}
                                 </ul>
@@ -45,5 +50,5 @@
                 </div>
             </div>
         </section><!-- End Services Section -->
-
+    </main>
 {% endblock %}

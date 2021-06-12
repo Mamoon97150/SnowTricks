@@ -66,9 +66,16 @@
                 </header>
                 <!-- End Header -->
             {% endblock %}
-            <main class="container-fluid p-0 {{ login }}">
-                {% block main %}{% endblock %}
-            </main>
+            {% for label, messages in app.flashes(['success', 'warning']) %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }} m-0">
+                        {{ message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block main %}
+
+            {% endblock %}
 
             {% block footer %}
                 <!-- ======= Footer ======= -->

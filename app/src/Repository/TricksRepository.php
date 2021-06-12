@@ -62,14 +62,6 @@ class TricksRepository extends ServiceEntityRepository
             WHERE t.id = :id"
         )->setParameter('id', $trickId);
 
-       /* $query = $this->createQueryBuilder('t')
-            ->innerJoin('t.group', 'g')
-            ->where('t.id = :id')
-            ->setParameter('id', $trickId)
-           return $query->getQuery()->execute();
-        ;*/
-
-
         return $query->getOneOrNullResult();
     }
 }
