@@ -4,35 +4,58 @@
 namespace App\Controller;
 
 
+use App\Entity\Message;
 use App\Entity\Tricks;
+use App\Entity\User;
+use App\Form\MessageFormType;
 use App\Form\TrickFormType;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class TricksController extends AbstractController
 {
     private TricksRepository $trickRepository;
+    private Security $security;
 
-    public function __construct(TricksRepository $trickRepository)
+    public function __construct(TricksRepository $trickRepository, Security $security)
     {
         $this->trickRepository = $trickRepository;
+        $this->security = $security;
     }
 
     /**
      * @Route("/tricks/{id}", name="trick_show", requirements={"id"="\d+"})
+     * @throws NonUniqueResultException
      */
-    public function showTrick(Tricks $tricks)
+    public function showTrick(Tricks $tricks, Request $request)
     {
         $trick = $this->trickRepository->findOneByIdJoinedToGroup($tricks->getId());
-        /*$groupName= $trick->getGroup()->getName();*/
+        $messages = $trick->getMessages();
+        $username = $this->getUser()->getUsername();
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+
+
+        $form = $this->createForm(MessageFormType::class);
+        $form->handleRequest($request);
+
+        if ($this->security->isGranted('ROLE_USER')) {
+            if ($form->isSubmitted() && $form->isValid()) {
+                (new MessageController())->addMessage($form, $trick, $user, $this);
+            }
+
+        }
+
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
+            'messages' => $messages,
+            'user' => $user,
+            'messageForm' => $form->createView()
         ]);
 
     }

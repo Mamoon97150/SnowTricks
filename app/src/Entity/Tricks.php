@@ -53,7 +53,7 @@ class Tricks
     private ?DateTimeInterface $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $updatedAt;
 

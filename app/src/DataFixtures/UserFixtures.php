@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     private $encoder;
+    public const JANE = "jane doe";
+    public const JOHN = 'john doe';
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -24,6 +26,7 @@ class UserFixtures extends Fixture
             ->setLastName("Doe")
             ->setFirstName("Jane")
             ->setEmail('jane@test.com')
+            ->setPicture('lee-chinyama-lU-PdecrqeE-unsplash.jpg')
         ;
 
         $password = $this->encoder->encodePassword($jane, 'password1');
@@ -36,6 +39,7 @@ class UserFixtures extends Fixture
             ->setLastName("Doe")
             ->setFirstName("John")
             ->setEmail('john@test.com')
+            ->setPicture('abdulaziz-mohammed-ea-oFLGP7IU-unsplash.jpg')
         ;
 
         $password = $this->encoder->encodePassword($john, 'password1');
@@ -43,5 +47,8 @@ class UserFixtures extends Fixture
         $manager->persist($john);
 
         $manager->flush();
+
+        $this->addReference(self::JANE, $jane);
+        $this->addReference(self::JOHN, $john);
     }
 }

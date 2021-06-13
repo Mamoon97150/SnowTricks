@@ -7,12 +7,15 @@
                     <div {#style="background: url('{{ featured }}')"#} class="h-50 col-9">
                         <h2 class="h2">{{ trick.name }}</h2>
                     </div>
-                    <div class="d-flex align-items-center col-1">
-                        <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
-                    </div>
-                    <div class="d-flex align-items-center col-1">
-                        <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-trash-alt"></i></a>
-                    </div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="d-flex align-items-center col-1">
+                            <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center col-1">
+                            {# TODO: modal for delete #}
+                            <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
 
@@ -29,18 +32,59 @@
                     <span class="badge bg-secondary">
                         {{ trick.createdAt | date }}
                     </span>
-                    {% if trick.createdAt != trick.updatedAt %}
+                    {% if trick.createdAt != trick.updatedAt and  trick.updatedAt is not null %}
                         <span class="badge bg-secondary">
                             {{ trick.updatedAt | date }}
                         </span>
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                {# TODO: discussion form #}
-            </div>
-            <div class="row">
-                {# TODO: discussion list #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="row justify-content-center border-bottom w-75 mx-auto my-4">
+                    {% for flashError in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                    {% endfor %}
+                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                    {{ form_start(messageForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="form-group form-floating mb-3">
+                            {% if form_errors(messageForm.content) %}
+                                {{ form_widget(messageForm.content, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter your Last Name', 'style': 'height: 15em'}}) }}
+                            {% else %}
+                                {{ form_widget(messageForm.content, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter your Last Name', 'style': 'height: 15em'}}) }}
+                            {% endif %}
+                            {{ form_label(messageForm.content, 'Comment') }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(messageForm.content) }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 d-grid gap-2">
+                            <button type="submit" class="btn btn-info">Send</button>
+                        </div>
+                    {{ form_end(messageForm) }}
+                </div>
+            {% endif %}
+            <div class="row px-5 my-4">
+                <ul>
+                    {% for message in messages %}
+                        <li class="row mb-3 border border-1 w-auto justify-content-center align-items-center">
+                            <div class="col-sm-2">
+                                <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}" alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle h-75">
+                            </div>
+                            <div class="col-sm-10">
+                                {% if user is not null %}
+                                    {% if user.id == message.user.id %}
+                                        <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                                    {% endif %}
+                                {% endif %}
+                                <h4 class="h4 m-0">{{ message.user.username }}</h4>
+                                <p>
+                                    <small>published on {{ message.createdAt | date }}</small>
+                                </p>
+                                {{ message.content | raw }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </section>
 {% endblock %}

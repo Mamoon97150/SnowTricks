@@ -29,7 +29,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('A trick in which the snowboarder springs off the tail of the board and into the air.')
             ->setGroup($this->getReference(GroupFixtures::AERIAL_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($ollies);
 
@@ -39,7 +38,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('This Aerial Trick involves making a 180-degree turn in the air and then riding switch.')
             ->setGroup($this->getReference(GroupFixtures::AERIAL_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($airToFakie);
 
@@ -49,7 +47,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('Learn how to maintain balance while riding just one end of your board by doing a Wheelie.')
             ->setGroup($this->getReference(GroupFixtures::SURFACE_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($wheelies);
 
@@ -59,7 +56,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('While traveling along the surface of the snow, this trick is performed by pressuring either the nose or tail of the snowboard in such a way that the opposite half of the snowboard lifts off of the snow, allowing for a pivot-like rotation.')
             ->setGroup($this->getReference(GroupFixtures::SURFACE_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($butters);
 
@@ -69,7 +65,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('A trick in which the snowboarder springs off the tail of the board and into theA Nose and Tail Roll is done by using either your board’s nose or tail to spin 180 degrees and thus changing your stance.')
             ->setGroup($this->getReference(GroupFixtures::SURFACE_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($nose_tail);
 
@@ -79,7 +74,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('A Nose and Tail Roll is done by using either your board’s nose or tail to spin 180 degrees and thus changing your stance.')
             ->setGroup($this->getReference(GroupFixtures::RAILS_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($fifty);
 
@@ -89,7 +83,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('In this trick, you will make a Wheelie instead of just grinding with the board flat on the rail.')
             ->setGroup($this->getReference(GroupFixtures::RAILS_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($fiveO);
 
@@ -99,7 +92,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('In doing a Rock-n-Roll Grind, you need to keep the board parallel to the rail while grinding.')
             ->setGroup($this->getReference(GroupFixtures::RAILS_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($rock);
 
@@ -109,7 +101,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription(' In this trick, you need to turn 180 degrees as you go uphill.')
             ->setGroup($this->getReference(GroupFixtures::HALF_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($alley);
 
@@ -119,11 +110,22 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('In this Snowboarding Trick, you need to make two full spins in the air.')
             ->setGroup($this->getReference(GroupFixtures::HALF_TRICKS_GROUP))
             ->setCreatedAt()
-            ->setUpdatedAt()
         ;
         $manager->persist($backside);
 
         $manager->flush();
+
+        $this->addReference(self::OLLIE_TRICK, $ollies);
+        $this->addReference(self::FAKIE_TRICK, $airToFakie);
+        $this->addReference(self::WHEELIE_TRICK, $wheelies);
+        $this->addReference(self::BUTTER_TRICK, $butters);
+        $this->addReference(self::NOSE_TRICK, $nose_tail);
+        $this->addReference(self::FIFTY_TRICK, $fifty);
+        $this->addReference(self::FIVE_TRICK, $fiveO);
+        $this->addReference(self::ROCK_TRICK, $rock);
+        $this->addReference(self::ALLEY_TRICK, $alley);
+        $this->addReference(self::BACKSIDE_TRICK, $backside);
+
     }
 
     public function getDependencies(): array
