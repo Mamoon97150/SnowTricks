@@ -1,25 +1,46 @@
 {% extends 'base.html.twig' %}
 {% block main %}
-    <main class="container-fluid p-0 " style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
+    <main class="container-fluid p-0 show">
         <section class="col-10 bg-white mx-auto">
-            <div class="">
+            <div style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover">
                 <div class="row">
-                    <div {#style="background: url('{{ featured }}')"#} class="h-50 col-9">
-                        <h2 class="h2">{{ trick.name }}</h2>
+                    <div  class="col mx-auto featured d-flex">
+                        <h2 class="h2 align-self-center mx-auto bg-info text-white w-25 text-center">{{ trick.name }}</h2>
+                        <div class="float-start d-flex justify-content-between align-items-baseline mx-3">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <div class="d-flex align-items-center col-1 gx-5">
+                                    <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
+                                </div>
+                                <div class="d-flex align-items-center col-1 gx-3" {{ stimulus_controller('modal-form') }}>
+                                    <!-- Button trigger modal -->
+                                    <a href="#" class="h4 text-dark" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
+                                    {% include('tricks/_delete.html.twig') %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <div class="d-flex align-items-center col-1">
-                            <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
-                        </div>
-                        <div class="d-flex align-items-center col-1">
-                            {# TODO: modal for delete #}
-                            <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-trash-alt"></i></a>
-                        </div>
+                </div>
+            </div>
+            <div class="align-items-center justify-content-center mx-2 my-4 d-none d-md-flex flex-row nowrap">
+                {% for media in trick.medias %}
+                    {% if media.featured == false %}
+                        {% if media.extension == 'mp4' %}
+                            <video controls width="250" class="col-md-auto media me-md-2 align-self-baseline">
+                                <source src="{{ asset('uploads/medias/' ~ media.name) }}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
+                        {% endif %}
                     {% endif %}
-                </div>
-                <div class="row">
 
-                </div>
+                {% endfor %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div {{ stimulus_controller('modal-form') }} class="col-auto g-3">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-info" data-action="modal-form#openModal">Add media</button>
+                        {% include('media/_addmedia.html.twig') %}
+                    </div>
+                {% endif %}
             </div>
             <div class="row">
                 <div class="col-8 mx-auto">
@@ -40,11 +61,10 @@
                 </div>
             </div>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <div class="row justify-content-center border-bottom w-75 mx-auto my-4">
+                <div class="row justify-content-center border-bottom border-top w-75 mx-auto my-4">
                     {% for flashError in app.flashes('verify_email_error') %}
                         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
                     {% endfor %}
-                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
                     {{ form_start(messageForm, { 'attr': {'novalidate': 'novalidate'}}) }}
                         <div class="form-group form-floating mb-3">
                             {% if form_errors(messageForm.content) %}
@@ -58,23 +78,21 @@
                             </div>
                         </div>
                         <div class="form-group mb-3 d-grid gap-2">
-                            <button type="submit" class="btn btn-info">Send</button>
+                            <button type="submit" class="btn btn-info">Leave a Comment</button>
                         </div>
                     {{ form_end(messageForm) }}
                 </div>
             {% endif %}
             <div class="row px-5 my-4">
                 <ul>
-                    {% for message in messages %}
-                        <li class="row mb-3 border border-1 w-auto justify-content-center align-items-center">
+                    {% for message in trick.messages %}
+                        <li class="row mb-3 border border-1 w-50 justify-content-center align-items-center m-auto">
                             <div class="col-sm-2">
-                                <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}" alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle h-75">
+                                <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}" alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle profile">
                             </div>
                             <div class="col-sm-10">
-                                {% if user is not null %}
-                                    {% if user.id == message.user.id %}
-                                        <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i class="fas fa-trash-alt"></i></a>
-                                    {% endif %}
+                                {% if app.user and app.user == message.user %}
+                                    <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i class="fas fa-trash-alt"></i></a>
                                 {% endif %}
                                 <h4 class="h4 m-0">{{ message.user.username }}</h4>
                                 <p>
@@ -87,4 +105,5 @@
                 </ul>
             </div>
         </section>
+    </main>
 {% endblock %}

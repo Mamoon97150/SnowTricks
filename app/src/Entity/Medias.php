@@ -32,6 +32,11 @@ class Medias
      */
     private ?bool $featured= false;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $extension;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Medias
     public function setFeatured(bool $featured): self
     {
         $this->featured = $featured;
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
 
         return $this;
     }

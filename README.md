@@ -19,8 +19,21 @@ Vous pouvez vérifier les pré-requis (sauf Docker et Docker-compose) avec la co
 
 ### Lancer l'environnement de développement
 
+Créez un dossier mysql à la racine du projet. Puis entrez les commande suivante :
 ```bash
     docker-compose up -d
+```
+
+L'environnement de developpement est lancé !!
+
+### Ajouter les dépendances
+
+Ouvrez un terminal a la racine du projet et eécutez les commandes suivantes :
+
+```bash
+    cd app
+    composer install
+    npm run build (ou yarn build)
 ```
 
 ### Lancer les tests

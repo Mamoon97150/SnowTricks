@@ -4,14 +4,17 @@
 namespace App\Controller;
 
 
+use App\Entity\Medias;
 use App\Entity\Message;
 use App\Entity\Tricks;
 use App\Entity\User;
+use App\Form\MediaFormType;
 use App\Form\MessageFormType;
 use App\Form\TrickFormType;
 use App\Repository\TricksRepository;
-use Doctrine\ORM\NonUniqueResultException;
+use App\Service\MediaUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,32 +33,33 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/tricks/{id}", name="trick_show", requirements={"id"="\d+"})
-     * @throws NonUniqueResultException
      */
-    public function showTrick(Tricks $tricks, Request $request)
+    public function showTrick(Tricks $trick, Request $request, MediaUploader $uploader): Response
     {
-        $trick = $this->trickRepository->findOneByIdJoinedToGroup($tricks->getId());
-        $messages = $trick->getMessages();
-        $username = $this->getUser()->getUsername();
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-
-
         $form = $this->createForm(MessageFormType::class);
         $form->handleRequest($request);
 
-        if ($this->security->isGranted('ROLE_USER')) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                (new MessageController())->addMessage($form, $trick, $user, $this);
-            }
-
+        if ($this->security->isGranted('ROLE_USER') && $form->isSubmitted() && $form->isValid()) {
+            (new MessageController())->addMessage($form, $trick, $this);
         }
 
+        $media = new Medias();
+        $mediaForm = $this->createForm(MediaFormType::class, $media);
+        $mediaForm->handleRequest($request);
+
+        if ($this->security->isGranted('ROLE_USER') && $mediaForm->isSubmitted() && $mediaForm->isValid()) {
+            /** @var UploadedFile $upload */
+            $upload = $mediaForm->get('name')->getData();
+            (new MediaController())->addMedia($upload, $uploader, $media, $this, $trick);
+        }
+
+        $featured = (new MediaController())->getFeatured($trick, $this);
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
-            'messages' => $messages,
-            'user' => $user,
-            'messageForm' => $form->createView()
+            'messageForm' => $form->createView(),
+            'mediaForm' => $mediaForm->createView(),
+            'featured' => $featured
         ]);
 
     }
@@ -69,12 +73,11 @@ class TricksController extends AbstractController
 
         $trick = new Tricks();
 
-        $form = $this->createForm(TrickFormType::class);
+        $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $trick = $form->getData();
             $trick->setCreatedAt();
             $trick->setUpdatedAt();
 
@@ -97,11 +100,9 @@ class TricksController extends AbstractController
     /**
      * @Route("/tricks/delete/{id}", name="trick_delete", requirements={"id"="\d+"})
      */
-    public function deleteTrick(Tricks $tricks)
+    public function deleteTrick(Tricks $trick)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $trick = $this->trickRepository->find($tricks->getId());
 
         $this->addFlash('warning', '<p class="text-center m-0">'.$trick->getName().' was deleted ! </p>');
 
@@ -116,20 +117,15 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/tricks/{id}/edit", name="trick_edit", requirements={"id"="\d+"})
-     * @throws NonUniqueResultException
      */
-    public function editTrick(Tricks $tricks, Request $request): Response
+    public function editTrick(Tricks $trick, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $trick = $this->trickRepository->findOneByIdJoinedToGroup($tricks->getId());
-
 
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick = $form->getData();
             $trick->setUpdatedAt();
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -138,7 +134,7 @@ class TricksController extends AbstractController
 
             $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was updated !</p>');
 
-            return $this->redirectToRoute('trick_show', ['id' => $tricks->getId()]);
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
 
         }
 
