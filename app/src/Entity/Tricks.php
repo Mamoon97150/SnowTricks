@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
+ * @UniqueEntity("name", message="This trick already exist !")
  */
 class Tricks
 {
@@ -43,6 +46,16 @@ class Tricks
      * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick")
      */
     private $medias;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private ?DateTimeInterface $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private ?DateTimeInterface $updatedAt;
 
     public function __construct()
     {
@@ -133,7 +146,7 @@ class Tricks
     {
         if (!$this->medias->contains($media)) {
             $this->medias[] = $media;
-            $media->setTrickId($this);
+            $media->setTrick($this);
         }
 
         return $this;
@@ -143,10 +156,34 @@ class Tricks
     {
         if ($this->medias->removeElement($media)) {
             // set the owning side to null (unless already changed)
-            if ($media->getTrickId() === $this) {
-                $media->setTrickId(null);
+            if ($media->getTrick() === $this) {
+                $media->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = date_create();
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt = date_create();
 
         return $this;
     }

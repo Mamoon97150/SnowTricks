@@ -21,7 +21,6 @@ Vous pouvez vérifier les pré-requis (sauf Docker et Docker-compose) avec la co
 
 ```bash
     docker-compose up -d
-    symfony serve -d
 ```
 
 ### Lancer les tests

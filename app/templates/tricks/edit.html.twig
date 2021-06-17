@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+    <main class="container-fluid  p-0" style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
+        <section class="row col-10 gy-3 bg-white mx-auto ">
+            <div>
+                medias
+
+            </div>
+        </section>
+        <section class="row col-10 gy-3 bg-white mx-auto px-4">
+            <h1 class="h3 mb-3 font-weight-normal">Edit</h1>
+            {{ form_start(editForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+            {#{{ form(editForm) }}#}
+            <div class="form-group form-floating mb-3">
+                {% if form_errors(editForm.name) %}
+                    {{ form_widget(editForm.name, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter the tricks Name'}}) }}
+                {% else %}
+                    {{ form_widget(editForm.name, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter the tricks Name'}}) }}
+                {% endif %}
+                {{ form_label(editForm.name, 'Name') }}
+                <div class="invalid-feedback">
+                    {{ form_errors(editForm.name) }}
+                </div>
+            </div>
+            <div class="form-group form-floating mb-3">
+                {% if form_errors(editForm.description) %}
+                    {{ form_widget(editForm.description, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter the description', 'rows': '5'}}) }}
+                {% else %}
+                    {{ form_widget(editForm.description, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter the  description', 'style': 'height: 25em'}}) }}
+                {% endif %}
+                {{ form_label(editForm.description, 'Description') }}
+                <div class="invalid-feedback">
+                    {{ form_errors(editForm.description) }}
+                </div>
+            </div>
+            <div class="form-group form-floating mb-3">
+                {% if form_errors(editForm.group) %}
+                    {{ form_widget(editForm.group, {'attr': {'class': 'form-select underlined is-invalid text-capitalize', 'placeholder': 'Enter the group'}}) }}
+                {% else %}
+                    {{ form_widget(editForm.group, {'attr': {'class': 'form-select underlined text-capitalize', 'placeholder': 'Enter the group'}}) }}
+                {% endif %}
+                {{ form_label(editForm.group, 'Group') }}
+                <div class="invalid-feedback">
+                    {{ form_errors(editForm.group) }}
+                </div>
+            </div>
+            <div class="form-group mb-3 text-end gap-2">
+                <button type="submit" class="btn btn-outline-danger col-4">Delete</button>
+                <button type="submit" class="btn btn-info col-4">Save</button>
+            </div>
+            {{ form_end(editForm) }}
+        </section>
+    </main>
+{% endblock %}

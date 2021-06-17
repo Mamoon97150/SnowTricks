@@ -1,44 +1,45 @@
 {% extends 'base.html.twig' %}
-{% set login="auth justify-content-center" %}
 {% block title %}Reset your password{% endblock %}
 
 {% block main %}
-<div class="auth-container align-items-center justify-content-center">
-    <div class="card">
-        <div class="auth-content">
-            {% for flashError in app.flashes('reset_password_error') %}
-                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-            {% endfor %}
-            <h1 class="h3 mb-3 font-weight-normal">Reset your password</h1>
+    <main class="container-fluid p-0 auth justify-content-center">
+        <div class="auth-container align-items-center justify-content-center">
+            <div class="card">
+                <div class="auth-content">
+                    {% for flashError in app.flashes('reset_password_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                    {% endfor %}
+                    <h1 class="h3 mb-3 font-weight-normal">Reset your password</h1>
 
-            {{ form_start(requestForm, { 'attr': {'novalidate': 'novalidate'}}) }}
-            <div class="row g-2">
-                <div class="col-md">
-                    <div class="form-group form-floating mb-3">
-                        {#{{ form_row(requestForm.email) }}#}
-                        {% if form_errors(requestForm.email) %}
-                            {{ form_widget(requestForm.email, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter your Email'}}) }}
-                        {% else %}
-                            {{ form_widget(requestForm.email, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter your Email'}}) }}
-                        {% endif %}
-                        {{ form_label(requestForm.email, 'Email') }}
-                        <div class="invalid-feedback">
-                            {{ form_errors(requestForm.email) }}
-                        </div>
-                        <div>
-                            <small>
-                                Enter your email address and we we will send you a
-                                link to reset your password.
-                            </small>
+                    {{ form_start(requestForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="form-group form-floating mb-3">
+                                {#{{ form_row(requestForm.email) }}#}
+                                {% if form_errors(requestForm.email) %}
+                                    {{ form_widget(requestForm.email, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter your Email'}}) }}
+                                {% else %}
+                                    {{ form_widget(requestForm.email, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter your Email'}}) }}
+                                {% endif %}
+                                {{ form_label(requestForm.email, 'Email') }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(requestForm.email) }}
+                                </div>
+                                <div>
+                                    <small>
+                                        Enter your email address and we we will send you a
+                                        link to reset your password.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 d-grid gap-2">
+                                <button type="submit" class="btn btn-info">Send password reset email</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group mb-3 d-grid gap-2">
-                        <button type="submit" class="btn btn-info">Send password reset email</button>
-                    </div>
+                    {{ form_end(requestForm) }}
                 </div>
             </div>
-            {{ form_end(requestForm) }}
         </div>
-    </div>
-</div>
+    </main>
 {% endblock %}
