@@ -37,10 +37,10 @@ class Tricks
     /**
      * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="tricks")
      */
-    private $groupId;
+    private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trickId")
+     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick")
      */
     private $medias;
 
@@ -109,14 +109,14 @@ class Tricks
         return $this;
     }
 
-    public function getGroupId(): ?Group
+    public function getGroup(): ?Group
     {
-        return $this->groupId;
+        return $this->group;
     }
 
-    public function setGroupId(?Group $groupId): self
+    public function setGroup(?Group $group): self
     {
-        $this->groupId = $groupId;
+        $this->group = $group;
 
         return $this;
     }

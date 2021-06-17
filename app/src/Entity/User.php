@@ -57,14 +57,14 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private ?string $picture;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="userId")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
      */
-    private $messages;
+    private Collection $messages;
 
     public function __construct()
     {
