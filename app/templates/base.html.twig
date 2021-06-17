@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% block header %}
+                <!-- ======= Header ======= -->
+                <header>
+                    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                        <div class="container-fluid justify-content-around">
+                            <a class="navbar-brand d-none d-md-flex" href="#">
+                                <h1>SnowTricks</h1>
+                            </a>
+                            <div class="container-fluid">
+                                <ul class="col navbar-nav me-0 mb-2 mb-md-0 justify-content-end d-none d-md-flex">
+                                    <li class="nav-item">
+                                        <a class="nav-link active " aria-current="page" href="#">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Tricks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Sign In</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Sign Up</a>
+                                    </li>
+                                </ul>
+                                <ul class="col-12 navbar-nav me-0 mb-2 mb-md-0 justify-content-around d-flex d-md-none flex-row">
+                                    <li class="nav-item">
+                                        <a href="#" class="text-white"><i class="fas fa-home text-white" ></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="text-white"><i class="fas fa-bookmark"></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="text-white"><i class="fas fa-sign-in-alt"></i></a>
+                                        {#
+                                            TODO: if user logged in :
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        #}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+                <!-- End Header -->
+            {% endblock %}
+            <main class="container-fluid p-0">
+                {% block main %}{% endblock %}
+            </main>
+
+            {% block footer %}
+                <!-- ======= Footer ======= -->
+                <footer id="footer" class="bg-dark text-white text-center">
+                    <div class="container">
+                        <div class="copyright">
+                            &copy; Copyright <strong><span>Kelly</span></strong>. All Rights Reserved
+                        </div>
+                        <div class="credits">
+                            <!-- All the links in the footer should remain intact. -->
+                            <!-- You can delete the links only if you purchased the pro version. -->
+                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/kelly-free-bootstrap-cv-resume-html-template/ -->
+                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        </div>
+                    </div>
+                </footer><!-- End  Footer -->
+
+                {#<div id="preloader"></div>#}
+                <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+            {% endblock %}
+        {% endblock %}
+    </body>
+</html>
