@@ -11,7 +11,6 @@
             {#TODO: add form errors#}
             <h1 class="h3 mb-3 font-weight-normal">Add</h1>
             {{ form_start(createForm, { 'attr': {'novalidate': 'novalidate'}}) }}
-            {#{{ form(createForm) }}#}
             <div class="form-group form-floating mb-3">
                 {% if form_errors(createForm.name) %}
                     {{ form_widget(createForm.name, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter the tricks Name'}}) }}

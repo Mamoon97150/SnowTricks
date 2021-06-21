@@ -3,40 +3,70 @@
 namespace App\Controller;
 
 use App\Entity\Medias;
+use App\Entity\Tricks;
+use App\Form\MediaFormType;
 use App\Repository\MediasRepository;
 use App\Service\MediaUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MediaController extends AbstractController
 {
-    public function addMedia(UploadedFile $file, MediaUploader $mediaUploader, Medias $media, AbstractController $controller, $trick): Response
+    private Security $security;
+
+    public function __construct(Security $security)
     {
-        $controller->denyAccessUnlessGranted('ROLE_USER');
+        $this->security = $security;
+    }
 
-        if ($file) {
-            $media->setExtension($file->guessExtension());
 
-            $mediaName = $mediaUploader->upload($file);
-            $media->setName($mediaName);
-            $media->setTrick($trick);
+    /**
+     * @Route("/media/add/{id}", name="media_add", requirements={"id"="\d+"})
+     */
+    public function addMedia(MediaUploader $mediaUploader, Tricks $trick, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
-            $entityManager = $controller->getDoctrine()->getManager();
-            $entityManager->persist($media);
-            $entityManager->flush();
+        $media = new Medias();
+        $mediaForm = $this->createForm(MediaFormType::class, $media);
+        $mediaForm->handleRequest($request);
 
-            $controller->addFlash('success', '<p class="text-center m-0">Your media was added to the trick !</p>');
+
+        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $mediaForm->get('name')->getData();
+
+            if ($file) {
+                $media->setExtension($file->guessExtension());
+
+                $mediaName = $mediaUploader->upload($file);
+                $media->setName($mediaName);
+                $media->setTrick($trick);
+
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($media);
+                $entityManager->flush();
+
+
+                $this->addFlash('success', '<p class="text-center m-0">Your media was added to the trick !</p>');
+            }
 
         }
 
-        return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        return $this->render('media/_addMedia.html.twig', [
+            'mediaForm' => $mediaForm->createView()
+        ]);
     }
 
-    public function getFeatured(\App\Entity\Tricks $trick, TricksController $param)
+    public function getFeatured(Tricks $trick, TricksController $param): ?object
     {
         return $param->getDoctrine()
             ->getRepository(Medias::class)
@@ -47,9 +77,9 @@ class MediaController extends AbstractController
     }
 
     /**
-     * @Route("/media/delete/{id}", name="message_delete", requirements={"id"="\d+"})
+     * @Route("/media/delete/{id}", name="media_delete", requirements={"id"="\d+"})
      */
-    public function deleteMedia(Medias $media): RedirectResponse
+    public function deleteMedia(Medias $media): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -62,6 +92,43 @@ class MediaController extends AbstractController
 
         return $this->redirectToRoute('trick_show', [
             'id' => $media->getTrick()->getId()
+        ]);
+
+    }
+
+    /**
+     * @Route("/media/{id}/edit", name="media_edit", requirements={"id"="\d+"})
+     */
+    public function editMedia(Medias $media, Request $request, MediaUploader $mediaUploader): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $mediaForm = $this->createForm(MediaFormType::class, $media);
+        $mediaForm->handleRequest($request);
+
+        if ($this->security->isGranted('ROLE_USER') && $mediaForm->isSubmitted() && $mediaForm->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $mediaForm->get('name')->getData();
+
+            if ($file) {
+                $media->setExtension($file->guessExtension());
+
+                $mediaName = $mediaUploader->upload($file);
+                $media->setName($mediaName);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($media);
+                $entityManager->flush();
+
+                $this->addFlash('success', '<p class="text-center m-0">This media was updated !</p>');
+            }
+            return $this->redirectToRoute('trick_edit', ['id' => $media->getTrick()->getId()]);
+
+        }
+
+        return $this->render('media/_editMedia.html.twig', [
+            'mediaForm' => $mediaForm->createView(),
+            'media' => $media
         ]);
 
     }

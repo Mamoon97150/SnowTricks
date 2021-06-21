@@ -3,13 +3,71 @@
     <main class="container-fluid  p-0" style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
         <section class="row col-10 gy-3 bg-white mx-auto ">
             <div>
-                medias
+                {% if featured is not null %}
+                <div style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover">
+                {% else %}
+                <div>
+                {% endif%}
+                    <div class="row">
+                        <div  class="col mx-auto featured d-flex">
+                            <h2 class="h2 align-self-center mx-auto bg-info text-white w-25 text-center">{{ trick.name }}</h2>
+                            <div class="float-start d-flex justify-content-between align-items-baseline mx-3">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') and featured is not null %}
+                                    <div class="d-flex align-items-center col-1 gx-5">
+                                        <a href="{{ path('media_edit', {id: featured.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
+                                    </div>
+                                    <div class="d-flex align-items-center col-1 gx-3" {{ stimulus_controller('modal-form') }}>
+                                        <!-- Button trigger modal -->
+                                        <a href="#" class="h4 text-dark" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
+                                        {% include('media/_deleteFeatured.html.twig') %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-lg-auto g-2 justify-content-evenly">
+                {% for media in trick.medias %}
+                    {% if media.featured == false %}
+                    <div class="col-auto align-self-center">
+                        {% if media.extension == 'mp4' %}
+                            <video controls width="250" class="col-md-auto media me-md-2 ">
+                                <source src="{{ asset('uploads/medias/' ~ media.name) }}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
+                        {% endif %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <div {{ stimulus_controller('modal-form') }} class="d-flex align-items-center col-1 gx-5">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="h4 text-dark border-0 bg-transparent" data-action="modal-form#openModal"><i class="fas fa-pencil-alt"></i></button>
+                                {{ render(controller(
+                                    'App\\Controller\\MediaController::editMedia', {id: media}
+                                )) }}
+                            </div>
+                            <div class="d-flex align-items-center col-1 gx-3" {{ stimulus_controller('modal-form') }}>
+                                <!-- Button trigger modal -->
+                                <a href="#" class="h4 text-dark" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
+                                {% include('media/_deleteMedia.html.twig') %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div {{ stimulus_controller('modal-form') }} class="col-auto align-self-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-info" data-action="modal-form#openModal">Add media</button>
+                        {{ render(controller(
+                            'App\\Controller\\MediaController::addMedia', {id: trick.id}
+                        )) }}
 
+                    </div>
+                {% endif %}
             </div>
         </section>
         <section class="row col-10 gy-3 bg-white mx-auto px-4">
-            <h1 class="h3 mb-3 font-weight-normal">Edit</h1>
-
             {#TODO: add form errors#}
             {{ form_start(editForm, { 'attr': {'novalidate': 'novalidate'}}) }}
             {#{{ form(editForm) }}#}

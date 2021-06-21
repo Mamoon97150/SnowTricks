@@ -2,7 +2,11 @@
 {% block main %}
     <main class="container-fluid p-0 show">
         <section class="col-10 bg-white mx-auto">
+            {% if featured is not null %}
             <div style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover">
+            {% else %}
+            <div>
+            {% endif%}
                 <div class="row">
                     <div  class="col mx-auto featured d-flex">
                         <h2 class="h2 align-self-center mx-auto bg-info text-white w-25 text-center">{{ trick.name }}</h2>
@@ -32,13 +36,14 @@
                             <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
                         {% endif %}
                     {% endif %}
-
                 {% endfor %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div {{ stimulus_controller('modal-form') }} class="col-auto g-3">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-outline-info" data-action="modal-form#openModal">Add media</button>
-                        {% include('media/_addmedia.html.twig') %}
+                        {{ render(path(
+                            'media_add', {id: trick.id}
+                        )) }}
                     </div>
                 {% endif %}
             </div>

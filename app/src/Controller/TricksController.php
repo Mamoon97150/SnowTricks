@@ -36,29 +36,19 @@ class TricksController extends AbstractController
      */
     public function showTrick(Tricks $trick, Request $request, MediaUploader $uploader): Response
     {
-        $form = $this->createForm(MessageFormType::class);
+        $message = new Message();
+        $form = $this->createForm(MessageFormType::class, $message);
         $form->handleRequest($request);
 
         if ($this->security->isGranted('ROLE_USER') && $form->isSubmitted() && $form->isValid()) {
             (new MessageController())->addMessage($form, $trick, $this);
         }
 
-        $media = new Medias();
-        $mediaForm = $this->createForm(MediaFormType::class, $media);
-        $mediaForm->handleRequest($request);
-
-        if ($this->security->isGranted('ROLE_USER') && $mediaForm->isSubmitted() && $mediaForm->isValid()) {
-            /** @var UploadedFile $upload */
-            $upload = $mediaForm->get('name')->getData();
-            (new MediaController())->addMedia($upload, $uploader, $media, $this, $trick);
-        }
-
-        $featured = (new MediaController())->getFeatured($trick, $this);
+        $featured = (new MediaController($this->security))->getFeatured($trick, $this);
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
             'messageForm' => $form->createView(),
-            'mediaForm' => $mediaForm->createView(),
             'featured' => $featured
         ]);
 
@@ -138,8 +128,12 @@ class TricksController extends AbstractController
 
         }
 
+        $featured = (new MediaController($this->security))->getFeatured($trick, $this);
+
         return $this->render('tricks/edit.html.twig', [
             'editForm' => $form->createView(),
+            'featured' => $featured,
+            'trick' => $trick
         ]);
 
     }
