@@ -48,20 +48,4 @@ class TricksRepository extends ServiceEntityRepository
         ;
     }
     */
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findOneByIdJoinedToGroup(int $trickId): ?Tricks
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            "SELECT t, g
-            FROM App\Entity\Tricks t
-            INNER JOIN t.group g
-            WHERE t.id = :id"
-        )->setParameter('id', $trickId);
-
-        return $query->getOneOrNullResult();
-    }
 }

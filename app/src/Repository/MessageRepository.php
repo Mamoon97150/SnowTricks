@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +16,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MessageRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 2;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Message::class);
+    }
+
+    public function getMessagePaginator(Tricks $trick, int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('m')
+            ->andWhere('m.trick = :trick')
+            ->setParameter('trick', $trick)
+            ->orderBy('m.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
     }
 
     // /**

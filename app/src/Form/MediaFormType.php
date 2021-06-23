@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MediaFormType extends AbstractType
 {
@@ -28,8 +29,12 @@ class MediaFormType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image (png or jpeg) or video (mp4)'
                         ]),
+                    new NotBlank([
+                        'message' => 'Please select an image',
+                    ]),
                     ],
             ])
+        //TODO: featured must be unique for each trick
             ->add('featured', CheckboxType::class, [
                 'required' => false
             ])
