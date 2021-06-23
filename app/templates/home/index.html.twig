@@ -39,18 +39,20 @@
                                                     class="fas fa-pencil-alt"></i></a>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        {# TODO: modal for delete #}
-                                        <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-white"><i
-                                                    class="fas fa-trash-alt"></i></a>
+                                        <!-- Button trigger modal -->
+                                        <a href="#" class="h4 text-white" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
+                                        {% include('tricks/_delete.html.twig') %}
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-                    {# TODO: add back to top button #}
                 </div>
             </div>
+            <div class="position-relative">
+                <a href="#services" class="position-fixed bottom-0 end-0 text-dark" data-action="modal-form#openModal"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
+            </div>
         </section><!-- End Services Section -->
-    </main>
+    </main>*
 {% endblock %}

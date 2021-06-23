@@ -41,9 +41,8 @@
                     <div {{ stimulus_controller('modal-form') }} class="col-auto g-3">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-outline-info" data-action="modal-form#openModal">Add media</button>
-                        {{ render(path(
-                            'media_add', {id: trick.id}
-                        )) }}
+                        {% include('media/_addMedia.html.twig') %}
+
                     </div>
                 {% endif %}
             </div>
@@ -89,25 +88,36 @@
                 </div>
             {% endif %}
             <div class="row px-5 my-4">
-                <ul>
-                    {% for message in trick.messages %}
-                        <li class="row mb-3 border border-1 w-50 justify-content-center align-items-center m-auto">
-                            <div class="col-sm-2">
-                                <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}" alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle profile">
-                            </div>
-                            <div class="col-sm-10">
-                                {% if app.user and app.user == message.user %}
-                                    <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i class="fas fa-trash-alt"></i></a>
-                                {% endif %}
-                                <h4 class="h4 m-0">{{ message.user.username }}</h4>
-                                <p>
-                                    <small>published on {{ message.createdAt | date }}</small>
-                                </p>
-                                {{ message.content | raw }}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% if messages|length > 0 %}
+                    <p>There are {{ messages|length }} messages.</p>
+                    <ul>
+                        {% for message in messages %}
+                            <li class="row mb-3 border border-1 w-50 justify-content-center align-items-center m-auto">
+                                <div class="col-sm-2">
+                                    <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}" alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle profile">
+                                </div>
+                                <div class="col-sm-10">
+                                    {% if app.user and app.user == message.user %}
+                                        <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                                    {% endif %}
+                                    <h4 class="h4 m-0">{{ message.user.username }}</h4>
+                                    <p>
+                                        <small>published on {{ message.createdAt | date }}</small>
+                                    </p>
+                                    {{ message.content | raw }}
+                                </div>
+                            </li>
+                        {% endfor %}
+                        {% if previous >= 0 %}
+                            <a href="{{ path('trick_show', { id: trick.id, offset: previous }) }}">Previous</a>
+                        {% endif %}
+                        {% if next < messages|length %}
+                            <a href="{{ path('trick_show', { id: trick.id, offset: next }) }}">Next</a>
+                        {% endif %}
+                    </ul>
+                {% else %}
+                    <div>No comments have been posted yet for this conference.</div>
+                {% endif %}
             </div>
         </section>
     </main>

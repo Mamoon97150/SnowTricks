@@ -26,44 +26,29 @@ class MediaController extends AbstractController
         $this->security = $security;
     }
 
-
-    /**
-     * @Route("/media/add/{id}", name="media_add", requirements={"id"="\d+"})
-     */
-    public function addMedia(MediaUploader $mediaUploader, Tricks $trick, Request $request): Response
+    public function addMedia(MediaUploader $mediaUploader, Tricks $trick, FormInterface $mediaForm, Medias $media, TricksController $controller): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $controller->denyAccessUnlessGranted('ROLE_USER');
 
-        $media = new Medias();
-        $mediaForm = $this->createForm(MediaFormType::class, $media);
-        $mediaForm->handleRequest($request);
+        /** @var UploadedFile $file */
+        $file = $mediaForm->get('name')->getData();
 
+        if ($file) {
+            $media->setExtension($file->guessExtension());
 
-        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
-            /** @var UploadedFile $file */
-            $file = $mediaForm->get('name')->getData();
-
-            if ($file) {
-                $media->setExtension($file->guessExtension());
-
-                $mediaName = $mediaUploader->upload($file);
-                $media->setName($mediaName);
-                $media->setTrick($trick);
+            $mediaName = $mediaUploader->upload($file);
+            $media->setName($mediaName);
+            $media->setTrick($trick);
 
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($media);
-                $entityManager->flush();
+            $entityManager = $controller->getDoctrine()->getManager();
+            $entityManager->persist($media);
+            $entityManager->flush();
 
 
-                $this->addFlash('success', '<p class="text-center m-0">Your media was added to the trick !</p>');
-            }
-
+            $controller->addFlash('success', '<p class="text-center m-0">Your media was added to the trick !</p>');
         }
-
-        return $this->render('media/_addMedia.html.twig', [
-            'mediaForm' => $mediaForm->createView()
-        ]);
+        return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
     }
 
     public function getFeatured(Tricks $trick, TricksController $param): ?object
@@ -126,7 +111,7 @@ class MediaController extends AbstractController
 
         }
 
-        return $this->render('media/_editMedia.html.twig', [
+        return $this->render('media/editMedia.html.twig', [
             'mediaForm' => $mediaForm->createView(),
             'media' => $media
         ]);
