@@ -42,7 +42,7 @@ class MessageController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
-        $controller->addFlash('success', '<p class="text-center m-0">Your message was added to the discussion board, ' . $user->getUsername() . '!</p>');
+        $controller->addFlash('success', '<p class="text-center m-0">Your message was added to the discussion board, ' . $controller->getUser()->getUserIdentifier() . '!</p>');
 
         return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
 

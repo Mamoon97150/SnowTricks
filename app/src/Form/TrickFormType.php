@@ -17,7 +17,6 @@ class TrickFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //TODO: add constraints
         $builder
             ->add('name', TextType::class,[
                 'constraints' => [

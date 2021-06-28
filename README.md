@@ -5,9 +5,6 @@ Snowtricks est un site collaboratif pour faire connaître le snowboard auprès d
 ## Environnement de développement
 
 ### Pré-requis
--   PHP 7.4 
--   Composer 
--   Symfony CLI
 -   Docker
 -   Docker-compose
 
@@ -33,8 +30,11 @@ Ouvrez un terminal a la racine du projet et eécutez les commandes suivantes :
 ```bash
     cd app
     composer install
+    npm install
     npm run build (ou yarn build)
 ```
+
+### Installer la base de données
 
 ### Lancer les tests
 

@@ -7,6 +7,7 @@ use App\Entity\Tricks;
 use App\Form\MediaFormType;
 use App\Repository\MediasRepository;
 use App\Service\MediaUploader;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -40,8 +41,14 @@ class MediaController extends AbstractController
             $media->setName($mediaName);
             $media->setTrick($trick);
 
-
             $entityManager = $controller->getDoctrine()->getManager();
+
+            if ($media->getFeatured()) {
+                $featured = (new MediaController($this->security))->getFeatured($trick, $controller);
+                $featured->setFeatured(false);
+                $entityManager->persist($featured);
+            }
+
             $entityManager->persist($media);
             $entityManager->flush();
 
@@ -51,7 +58,7 @@ class MediaController extends AbstractController
         return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
     }
 
-    public function getFeatured(Tricks $trick, TricksController $param): ?object
+    public function getFeatured(Tricks $trick, AbstractController $param): ?object
     {
         return $param->getDoctrine()
             ->getRepository(Medias::class)
@@ -102,6 +109,13 @@ class MediaController extends AbstractController
                 $media->setName($mediaName);
 
                 $entityManager = $this->getDoctrine()->getManager();
+
+                if ($media->getFeatured()) {
+                    $featured = $this->getFeatured($media->getTrick(), $this);
+                    $featured->setFeatured(false);
+                    $entityManager->persist($featured);
+                }
+
                 $entityManager->persist($media);
                 $entityManager->flush();
 

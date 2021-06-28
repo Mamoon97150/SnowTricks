@@ -1,0 +1,15 @@
+
+<div class="text-center" {{ stimulus_controller('load-more') }} >
+
+    <button type="button" id="pagination" class="btn btn-outline-dark" data-action="load-more#addPage">Load more ..</button>
+    {# custom variable #}
+    {% set queryParams = app.request.query.all %}
+    {% set queryString = queryParams | filter((v, k) => k != 'page' and k != "ajax") | url_encode %}
+
+    {#{% if page > 1 %}
+        <a href="{{ path('app_home', { page: (page - 1 )}) }}&{{ queryString }}" class="text-dark"><i class="fas fa-arrow-left fa-2x"></i></a>
+    {% endif %}
+    {% if page < maxPage %}
+        <a href="{{ path('app_home', { page: (page + 1) }) }}&{{ queryString }}" class="text-dark"><i class="fas fa-arrow-right fa-2x"></i></a>
+    {% endif %}#}
+</div>

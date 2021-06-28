@@ -34,7 +34,6 @@ class MediaFormType extends AbstractType
                     ]),
                     ],
             ])
-        //TODO: featured must be unique for each trick
             ->add('featured', CheckboxType::class, [
                 'required' => false
             ])

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,9 +16,44 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TricksRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tricks::class);
+    }
+
+    public function getTrickPaginator(int $page, int $limit, $filters = null): Paginator
+    {
+        $query = $this->createQueryBuilder('t');
+
+        if ($filters != null){
+            $query->where('t.group IN(:gps)')
+                ->setParameter('gps', array_values($filters))
+            ;
+        }
+
+        $query->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
+    }
+
+    public function getTrickCount($filters = null)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('COUNT(t)')
+        ;
+
+        if ($filters != null){
+            $query->where('t.group IN(:gps)')
+                ->setParameter('gps', array_values($filters))
+            ;
+        }
+
+        return $query->getQuery()->getSingleScalarResult();
     }
 
     // /**

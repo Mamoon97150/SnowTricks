@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+{# custom variable #}
+{% set queryParams = app.request.query.all %}
+
 {% block title %} SnowTricks{% endblock %}
 {% block main %}
     <main class="container-fluid p-0">
@@ -13,7 +16,6 @@
             </div>
 
         </div><!-- End Hero -->
-
         <!-- ======= Services Section ======= -->
         <section id="services" class="services">
             <div class="container px-4 py-5" id="custom-cards">
@@ -23,31 +25,28 @@
                     <a href="{{ path('trick_add') }}" class="col-2 btn btn-outline-dark d-flex d-md-none justify-content-center"><i class="fas fa-plus-circle fa-3x"></i></a>
                     <p>Check our list of tricks and add your own !</p>
                 </div>
+                <div class="filters text-center" {{ stimulus_controller('filters') }}>
+                    <form id="filters">
+                        {% for group in groups %}
+                            {% if queryParams is not empty and queryParams.groups is defined %}
+                                {% set checked = (group.id in queryParams.groups) ? "checked" : "" %}
+                            {% else %}
+                                {% set checked = "" %}
+                            {% endif %}
 
-
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5">
-                {% for trick in tricks  %}
-                    <div class="col custom">
-                        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover">
-                            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                                <ul class="d-flex list-unstyled mt-auto">
-                                    <li class="me-auto">
-                                        <a href="{{ path('trick_show', {id: trick.id}) }}" class="h4 text-white">{{ trick.name }}</a>
-                                    </li>
-                                    <li class="d-flex align-items-center me-3">
-                                        <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-white"><i
-                                                    class="fas fa-pencil-alt"></i></a>
-                                    </li>
-                                    <li class="d-flex align-items-center">
-                                        <!-- Button trigger modal -->
-                                        <a href="#" class="h4 text-white" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
-                                        {% include('tricks/_delete.html.twig') %}
-                                    </li>
-                                </ul>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="btn-check" id="gp{{ group.id }}" {{ checked }} autocomplete="off" value="{{ group.id }}" name="groups[]" data-action="filters#filter">
+                                <label class="btn btn-outline-dark" for="gp{{ group.id }}">{{ group.name | capitalize }}</label><br>
                             </div>
-                        </div>
+                        {% endfor %}
+                        <input type="hidden" name="page" value="{{ page }}">
+                    </form>
+                </div>
+                <div id="content">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5" id="loadTrick">
+                        {% include('home/_tricks.html.twig') %}
                     </div>
-                {% endfor %}
+                    {% include "home/_content.html.twig" %}
                 </div>
             </div>
             <div class="position-relative">

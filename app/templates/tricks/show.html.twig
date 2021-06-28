@@ -2,11 +2,12 @@
 {% block main %}
     <main class="container-fluid p-0 show">
         <section class="col-10 bg-white mx-auto">
-            {% if featured is not null %}
-            <div style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover">
-            {% else %}
-            <div>
-            {% endif%}
+
+            <div
+                    {% if featured is not null %}
+                        style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover"
+                    {% endif%}
+            >
                 <div class="row">
                     <div  class="col mx-auto featured d-flex">
                         <h2 class="h2 align-self-center mx-auto bg-info text-white w-25 text-center">{{ trick.name }}</h2>
@@ -108,15 +109,17 @@
                                 </div>
                             </li>
                         {% endfor %}
+                    </ul>
+                    <div class="text-center">
                         {% if previous >= 0 %}
-                            <a href="{{ path('trick_show', { id: trick.id, offset: previous }) }}">Previous</a>
+                            <a href="{{ path('trick_show', { id: trick.id, offset: previous }) }}" class="text-dark"><i class="fas fa-arrow-left fa-2x"></i></a>
                         {% endif %}
                         {% if next < messages|length %}
-                            <a href="{{ path('trick_show', { id: trick.id, offset: next }) }}">Next</a>
+                            <a href="{{ path('trick_show', { id: trick.id, offset: next }) }}" class="text-dark"><i class="fas fa-arrow-right fa-2x"></i></a>
                         {% endif %}
-                    </ul>
+                    </div>
                 {% else %}
-                    <div>No comments have been posted yet for this conference.</div>
+                    <div>No messages have been posted yet for this trick.</div>
                 {% endif %}
             </div>
         </section>
