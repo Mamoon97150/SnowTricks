@@ -18,7 +18,7 @@
                         <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-white"><i
                                     class="fas fa-pencil-alt"></i></a>
                     </li>
-                    <li class="d-flex align-items-center" id="delete">
+                    <li class="d-flex align-items-center" id="delete"  {{ stimulus_controller('modal-form') }}>
                         <!-- Button trigger modal -->
                         <a href="#delete{{ trick.id }}" class="h4 text-white" data-action="modal-form#openModal"><i
                                     class="fas fa-trash-alt"></i></a>

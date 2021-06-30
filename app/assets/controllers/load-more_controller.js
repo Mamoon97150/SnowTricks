@@ -1,20 +1,27 @@
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-
-    Add = document.querySelector("#pagination");
-//TODO : check why query doubles
     addPage(e){
-        e.preventDefault();
-        this.Add.addEventListener("click", () => {
+        //TODO : add filters to load more function
+        const Load = document.querySelector('#load');
+        const Page = document.querySelector('#load #page');
+
+
+        document.querySelector('#loader').onclick = function (){
+            const Form = new FormData(Load);
+
+            //creating param (query string)
+            const Param = new URLSearchParams();
+            Form.forEach(((value, key) => {
+                Param.set(key, value);
+
+            }))
 
             //get current url
             const Url = new URL(window.location.href)
-            const Page = new URLSearchParams('page');
-            let number = 1;
 
             //make ajax query
-            fetch(Url.pathname + "?" + Page + (number + 1), {
+            fetch(Url.pathname + "?" + Param.toString() + "&load=" + (Page.value), {
                 headers: {
                     "x-Requested-With": 'XMLHttpRequest'
                 }
@@ -23,11 +30,16 @@ export default class extends Controller {
             ).then(data => {
                 const tricks = document.querySelector('#loadTrick')
                 let child = data.content;
-                number = data.page;
+                let number = parseInt(Page.value);
+                number++;
+                Page.value = number;
+                Param.set('page', Page.value)
+
+                console.log(Param.toString())
 
                 tricks.insertAdjacentHTML("beforeend", child);
-                history.pushState({}, null, Url.pathname + '?' + Page + (number))
+                history.pushState({}, null, Url.pathname + '?'+ Param.toString() )
             }).catch(e => alert(e))
-        })
+        }
     }
 }

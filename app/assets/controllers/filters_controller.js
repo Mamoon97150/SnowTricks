@@ -1,22 +1,20 @@
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-
-    FiltersForm = document.querySelector("#filters");
-
     filter(e){
+        let FiltersForm = document.querySelector("#filters");
+
         document.querySelectorAll("#filters input").forEach( input => {
-            input.addEventListener("change", () =>  {
+            input.addEventListener("input", () =>  {
                 //TODO : check why query doubles
 
                 //get the form and ts values
-                const Form = new FormData(this.FiltersForm)
+                const Form = new FormData(FiltersForm)
 
                 //creating param (query string)
                 const Param = new URLSearchParams();
                 Form.forEach(((value, key) => {
                     Param.append(key, value);
-                    console.log(key, value)
                 }))
 
                 //get current url

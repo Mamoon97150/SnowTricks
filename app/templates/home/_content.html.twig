@@ -1,15 +1,24 @@
-
-<div class="text-center" {{ stimulus_controller('load-more') }} >
-
-    <button type="button" id="pagination" class="btn btn-outline-dark" data-action="load-more#addPage">Load more ..</button>
-    {# custom variable #}
+{# custom variable #}
     {% set queryParams = app.request.query.all %}
-    {% set queryString = queryParams | filter((v, k) => k != 'page' and k != "ajax") | url_encode %}
+    {% set queryString = queryParams | filter((v, k) => k != 'page' and k != "filters") | url_encode %}
 
-    {#{% if page > 1 %}
+{{ dump(queryString) }}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5" id="loadTrick">
+    {% include('home/_tricks.html.twig') %}
+</div>
+<div class="text-center" {{ stimulus_controller('load-more') }} >
+    <form id="load">
+        <input type="hidden" name="page" value="{{ page + 1 }}" id="page">
+        <input type="hidden" name="&" value="&{{ queryString }}">
+        <button type="button" id="loader" name="loader" class="btn btn-outline-dark" data-action="load-more#addPage">Load more ..</button>
+    </form>
+
+
+
+    {% if page > 1 %}
         <a href="{{ path('app_home', { page: (page - 1 )}) }}&{{ queryString }}" class="text-dark"><i class="fas fa-arrow-left fa-2x"></i></a>
     {% endif %}
     {% if page < maxPage %}
         <a href="{{ path('app_home', { page: (page + 1) }) }}&{{ queryString }}" class="text-dark"><i class="fas fa-arrow-right fa-2x"></i></a>
-    {% endif %}#}
+    {% endif %}
 </div>

@@ -48,8 +48,12 @@ class HomeController extends AbstractController
         if ($request->get('filters')){
             return new JsonResponse([
                 'content' => $this->renderView('home/_content.html.twig', ['tricks' => $tricks, 'maxPage' => $maxPage, 'page' => $page]),
-                'tricks' => $this->renderView('home/_tricks.html.twig', ['tricks' => $tricks, 'page' => ($page + 1)]),
-                'page' => $page
+            ]);
+        }
+
+        if ($request->get('load')){
+            return new JsonResponse([
+                'content' => $this->renderView('home/_tricks.html.twig', ['tricks' => $tricks, 'maxPage' => $maxPage, 'page' => $page]),
             ]);
         }
 
