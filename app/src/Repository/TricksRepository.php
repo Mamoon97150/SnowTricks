@@ -22,38 +22,25 @@ class TricksRepository extends ServiceEntityRepository
         parent::__construct($registry, Tricks::class);
     }
 
-    public function getTrickPaginator(int $page, int $limit, $filters = null): Paginator
+    public function getTrickPaginator(int $page, int $limit, $filters = null)
     {
-        $query = $this->createQueryBuilder('t');
-
-        if ($filters != null){
-            $query->where('t.group IN(:gps)')
-                ->setParameter('gps', array_values($filters))
-            ;
-        }
-
-        $query->orderBy('t.createdAt', 'DESC')
+        $q = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->setFirstResult(($page * $limit) - $limit)
             ->getQuery()
         ;
 
-        return new Paginator($query);
+        return $q->getResult();
     }
 
-    public function getTrickCount($filters = null)
+    public function getTrickCount()
     {
-        $query = $this->createQueryBuilder('t')
+        $q = $this->createQueryBuilder('t')
             ->select('COUNT(t)')
         ;
 
-        if ($filters != null){
-            $query->where('t.group IN(:gps)')
-                ->setParameter('gps', array_values($filters))
-            ;
-        }
-
-        return $query->getQuery()->getSingleScalarResult();
+        return $q->getQuery()->getSingleScalarResult();
     }
 
     // /**

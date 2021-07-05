@@ -29,40 +29,34 @@ class HomeController extends AbstractController
     public function index(Request $request, GroupRepository $groupRepository): Response
     {
 
-        $page = (int)$request->query->get('page', 1);
+        $page = (int)$request->query->getInt('page', 1);
         $limit = 6;
 
-        $filters = $request->get('groups');
 
-        $tricks= $this->tricksRepository->getTrickPaginator($page, $limit, $filters);
+        $tricks= $this->tricksRepository->getTrickPaginator($page, $limit);
         foreach ($tricks as $trick){
             $trick->getMedias();
-    }
+        }
 
-        $count = $this->tricksRepository->getTrickCount($filters);
+        $count = $this->tricksRepository->getTrickCount();
 
         $maxPage = ceil($count/$limit);
 
         $groups = $groupRepository->findAll();
 
-        if ($request->get('filters')){
-            return new JsonResponse([
-                'content' => $this->renderView('home/_content.html.twig', ['tricks' => $tricks, 'maxPage' => $maxPage, 'page' => $page]),
-            ]);
-        }
 
         if ($request->get('load')){
             return new JsonResponse([
                 'content' => $this->renderView('home/_tricks.html.twig', ['tricks' => $tricks, 'maxPage' => $maxPage, 'page' => $page]),
+                'maxPage' => $maxPage
             ]);
         }
 
-
         return $this->render('home/index.html.twig', [
-            'tricks' => $tricks,
-            'groups' => $groups,
-            'maxPage' => $maxPage,
             'page' => $page,
+            'maxPage' => $maxPage,
+            'tricks' => $tricks,
+            'groups' => $groups
         ]);
     }
 }

@@ -8,10 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
  * @UniqueEntity("name", message="This trick already exist !")
+ * @UniqueEntity("slug")
  */
 class Tricks
 {
@@ -56,6 +58,11 @@ class Tricks
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -186,5 +193,29 @@ class Tricks
         $this->updatedAt = date_create();
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function makeSlug(SluggerInterface $slugger)
+    {
+        if (!$this->slug || '-' === $this->slug){
+            $this->slug = (string) $slugger->slug((string)$this)->lower();
+        }
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
