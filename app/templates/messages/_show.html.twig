@@ -1,0 +1,19 @@
+{% for message in messages %}
+    <li class="row mb-3 border border-1 justify-content-center align-items-center mx-auto text-center text-md-start">
+        <div class="col-sm-2">
+            <img src="{{ asset('uploads/profile/' ~ message.user.picture) }}"
+                 alt="profile-picture-{{ message.user.username }}" class="img-fluid rounded-circle profile">
+        </div>
+        <div class="col-sm-10">
+            {% if app.user and app.user == message.user %}
+                <a class="float-end text-danger" href="{{ path('message_delete', {'id':message.id}) }}"><i
+                            class="fas fa-trash-alt"></i></a>
+            {% endif %}
+            <h4 class="h4 m-0">{{ message.user.username }}</h4>
+            <p>
+                <small>published on {{ message.createdAt | date }}</small>
+            </p>
+            {{ message.content | raw }}
+        </div>
+    </li>
+{% endfor %}

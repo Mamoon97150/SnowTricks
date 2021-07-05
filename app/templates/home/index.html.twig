@@ -25,29 +25,12 @@
                     <a href="{{ path('trick_add') }}" class="col-2 btn btn-outline-dark d-flex d-md-none justify-content-center"><i class="fas fa-plus-circle fa-3x"></i></a>
                     <p>Check our list of tricks and add your own !</p>
                 </div>
-                <div class="filters text-center" {{ stimulus_controller('filters') }}>
-                    <form id="filters">
-                        {% for group in groups %}
-                            {% if queryParams is not empty and queryParams.groups is defined %}
-                                {% set checked = (group.id in queryParams.groups) ? "checked" : "" %}
-                            {% else %}
-                                {% set checked = "" %}
-                            {% endif %}
-
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="btn-check" id="gp{{ group.id }}" {{ checked }} autocomplete="off" value="{{ group.id }}" name="groups[]" data-action="filters#filter">
-                                <label class="btn btn-outline-dark" for="gp{{ group.id }}">{{ group.name | capitalize }}</label><br>
-                            </div>
-                        {% endfor %}
-                        <input type="hidden" name="page" value="{{ page }}">
-                    </form>
-                </div>
                 <div id="content">
                     {% include "home/_content.html.twig" %}
                 </div>
             </div>
-            <div class="position-relative">
-                <a href="#services" class="position-fixed bottom-0 end-0 text-dark" data-action="modal-form#openModal"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
+            <div class="text-end m-2">
+                <a href="#services" class="text-dark text-end"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
             </div>
         </section><!-- End Services Section -->
     </main>

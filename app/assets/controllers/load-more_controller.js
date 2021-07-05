@@ -2,19 +2,16 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
     addPage(e){
-        //TODO : add filters to load more function
-        const Load = document.querySelector('#load');
-        const Page = document.querySelector('#load #page');
+        const Load = document.querySelector('.load');
+        const Page = document.querySelector('.load .page');
 
-
-        document.querySelector('#loader').onclick = function (){
+        document.querySelector('.loader').onclick = function (){
             const Form = new FormData(Load);
 
             //creating param (query string)
             const Param = new URLSearchParams();
             Form.forEach(((value, key) => {
                 Param.set(key, value);
-
             }))
 
             //get current url
@@ -28,17 +25,22 @@ export default class extends Controller {
             }).then(response =>
                 response.json()
             ).then(data => {
-                const tricks = document.querySelector('#loadTrick')
+                //show page
+                const tricks = document.querySelector('.loadBlock')
                 let child = data.content;
                 let number = parseInt(Page.value);
                 number++;
                 Page.value = number;
                 Param.set('page', Page.value)
 
-                console.log(Param.toString())
+                // hide load more
+                const button = document.querySelector('.loadButton');
+                if (Page.value >= data.maxPage){
+                    button.classList.add('d-none');
+                }
 
                 tricks.insertAdjacentHTML("beforeend", child);
-                history.pushState({}, null, Url.pathname + '?'+ Param.toString() )
+                history.pushState({}, null, Url.pathname + '?page='+ (Page.value - 1) )
             }).catch(e => alert(e))
         }
     }

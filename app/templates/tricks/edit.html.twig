@@ -35,6 +35,8 @@
                             <video controls width="250" class="col-md-auto media me-md-2 ">
                                 <source src="{{ asset('uploads/medias/' ~ media.name) }}" type="video/mp4">
                             </video>
+                        {% elseif media.extension == 'link' %}
+                            {{ media.name | raw }}
                         {% else %}
                             <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
                         {% endif %}
