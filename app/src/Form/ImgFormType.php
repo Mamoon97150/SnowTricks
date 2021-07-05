@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class MediaFormType extends AbstractType
+class ImgFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,9 +25,10 @@ class MediaFormType extends AbstractType
                         'mimeTypes' => [
                             'image/png',
                             'image/jpeg',
+                            'image/gif',
                             'video/mp4',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image (png or jpeg) or video (mp4)'
+                        'mimeTypesMessage' => 'Please upload a valid image (png , gif or jpeg) or video (mp4)'
                         ]),
                     new NotBlank([
                         'message' => 'Please select an image',

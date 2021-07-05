@@ -144,7 +144,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             $messageFiveJohn = new Message();
             $messageFiveJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
-                ->setTrick($this->getReference(TricksFixtures::FIVE_TRICK))
+                ->setTrick($this->getReference(TricksFixtures::NOSEPRESS_TRICK))
                 ->setCreatedAt()
             ;
             $manager->persist($messageFiveJohn);
@@ -153,7 +153,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             $messageFiveJane = new Message();
             $messageFiveJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
-                ->setTrick($this->getReference(TricksFixtures::FIVE_TRICK))
+                ->setTrick($this->getReference(TricksFixtures::NOSEPRESS_TRICK))
                 ->setCreatedAt()
             ;
             $manager->persist($messageFiveJane);
@@ -164,7 +164,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             $messageRockJane = new Message();
             $messageRockJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
-                ->setTrick($this->getReference(TricksFixtures::ROCK_TRICK))
+                ->setTrick($this->getReference(TricksFixtures::BOARDSLIDE_TRICK))
                 ->setCreatedAt()
             ;
             $manager->persist($messageRockJane);
@@ -173,7 +173,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             $messageRockJohn = new Message();
             $messageRockJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
-                ->setTrick($this->getReference(TricksFixtures::ROCK_TRICK))
+                ->setTrick($this->getReference(TricksFixtures::BOARDSLIDE_TRICK))
                 ->setCreatedAt()
             ;
             $manager->persist($messageRockJohn);

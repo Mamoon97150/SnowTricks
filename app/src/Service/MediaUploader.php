@@ -10,7 +10,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MediaUploader
 {
-    private $targetDirectory;
+    private string $targetDirectory;
     private SluggerInterface $slugger;
 
     public function __construct($targetDirectory, SluggerInterface $slugger)

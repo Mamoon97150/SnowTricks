@@ -19,33 +19,33 @@
                             <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
                         {% endif %}
                     </div>
-                    {{ form_start(mediaForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+                    {{ form_start(imgForm, { 'attr': {'novalidate': 'novalidate'}}) }}
                     <div class="form-group mb-3">
-                        {% if form_errors(mediaForm.name) %}
-                            {{ form_widget(mediaForm.name, {'attr': {'class': 'form-control is-invalid', 'placeholder': 'Enter the file'}}) }}
+                        {% if form_errors(imgForm.name) %}
+                            {{ form_widget(imgForm.name, {'attr': {'class': 'form-control is-invalid', 'placeholder': 'Enter the file'}}) }}
                         {% else %}
-                            {{ form_widget(mediaForm.name, {'attr': {'class': 'form-control', 'placeholder': 'enter the file'}}) }}
+                            {{ form_widget(imgForm.name, {'attr': {'class': 'form-control', 'placeholder': 'enter the file'}}) }}
                         {% endif %}
                         <div class="invalid-feedback">
-                            {{ form_errors(mediaForm.name) }}
+                            {{ form_errors(imgForm.name) }}
                         </div>
                     </div>
                     <div class="form-group mb-3 text-end">
-                        {% if form_errors(mediaForm.featured) %}
-                            {{ form_widget(mediaForm.featured, {'attr': {'class': 'form-check-input is-invalid'}}) }}
+                        {% if form_errors(imgForm.featured) %}
+                            {{ form_widget(imgForm.featured, {'attr': {'class': 'form-check-input is-invalid'}}) }}
                         {% else %}
-                            {{ form_widget(mediaForm.featured, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_widget(imgForm.featured, {'attr': {'class': 'form-check-input'}}) }}
                         {% endif %}
-                        {{ form_label(mediaForm.featured, 'Mark as featured') }}
+                        {{ form_label(imgForm.featured, 'Mark as featured') }}
                         <div class="invalid-feedback">
-                            {{ form_errors(mediaForm.featured) }}
+                            {{ form_errors(imgForm.featured) }}
                         </div>
                     </div>
                     <div class="form-group mb-3 gap-2 text-center">
-                        <a href="{{ path('trick_edit', {id: media.trick.id}) }}" class="btn btn-danger col-5 text-white">Back to trick</a>
+                        <a href="{{ path('trick_edit', {slug: media.trick.slug}) }}" class="btn btn-danger col-5 text-white">Back to trick</a>
                         <button type="submit" class="btn btn-info col-5">Edit</button>
                     </div>
-                    {{ form_end(mediaForm) }}
+                    {{ form_end(imgForm) }}
                 </div>
             </div>
         </div>

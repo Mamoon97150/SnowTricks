@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Medias;
 use App\Entity\Tricks;
-use App\Form\MediaFormType;
+use App\Form\ImgFormType;
 use App\Repository\MediasRepository;
 use App\Service\MediaUploader;
 use phpDocumentor\Reflection\Types\This;
@@ -43,8 +43,8 @@ class MediaController extends AbstractController
 
             $entityManager = $controller->getDoctrine()->getManager();
 
-            if ($media->getFeatured()) {
-                $featured = (new MediaController($this->security))->getFeatured($trick, $controller);
+            $featured = (new MediaController($this->security))->getFeatured($trick, $controller);
+            if ($media->getFeatured() and $featured) {
                 $featured->setFeatured(false);
                 $entityManager->persist($featured);
             }
@@ -95,7 +95,7 @@ class MediaController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $mediaForm = $this->createForm(MediaFormType::class, $media);
+        $mediaForm = $this->createForm(ImgFormType::class, $media);
         $mediaForm->handleRequest($request);
 
         if ($this->security->isGranted('ROLE_USER') && $mediaForm->isSubmitted() && $mediaForm->isValid()) {
@@ -126,7 +126,7 @@ class MediaController extends AbstractController
         }
 
         return $this->render('media/editMedia.html.twig', [
-            'mediaForm' => $mediaForm->createView(),
+            'imgForm' => $mediaForm->createView(),
             'media' => $media
         ]);
 
