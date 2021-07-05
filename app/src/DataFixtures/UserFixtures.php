@@ -5,17 +5,17 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    private $encoder;
+    private $hasher;
     public const JANE = "jane doe";
     public const JOHN = 'john doe';
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $hasher)
     {
-        $this->encoder = $encoder;
+        $this->hasher = $hasher;
     }
 
     public function load(ObjectManager $manager)
@@ -27,9 +27,10 @@ class UserFixtures extends Fixture
             ->setFirstName("Jane")
             ->setEmail('jane@test.com')
             ->setPicture('lee-chinyama-lU-PdecrqeE-unsplash.jpg')
+            ->setIsVerified(true)
         ;
 
-        $password = $this->encoder->encodePassword($jane, 'password1');
+        $password = $this->hasher->hashPassword($jane, 'password1');
         $jane->setPassword($password);
         $manager->persist($jane);
 
@@ -40,9 +41,10 @@ class UserFixtures extends Fixture
             ->setFirstName("John")
             ->setEmail('john@test.com')
             ->setPicture('abdulaziz-mohammed-ea-oFLGP7IU-unsplash.jpg')
+            ->setIsVerified(true)
         ;
 
-        $password = $this->encoder->encodePassword($john, 'password1');
+        $password = $this->hasher->hashPassword($john, 'password1');
         $john->setPassword($password);
         $manager->persist($john);
 

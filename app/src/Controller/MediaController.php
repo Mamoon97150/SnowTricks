@@ -5,18 +5,14 @@ namespace App\Controller;
 use App\Entity\Medias;
 use App\Entity\Tricks;
 use App\Form\ImgFormType;
-use App\Repository\MediasRepository;
 use App\Service\MediaUploader;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MediaController extends AbstractController
 {

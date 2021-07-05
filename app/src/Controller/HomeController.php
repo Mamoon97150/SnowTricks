@@ -4,7 +4,6 @@
 namespace App\Controller;
 
 
-use App\Entity\Tricks;
 use App\Repository\GroupRepository;
 use App\Repository\TricksRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
