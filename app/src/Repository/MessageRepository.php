@@ -23,20 +23,30 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function getMessagePaginator(Tricks $trick, int $offset): Paginator
+    public function getMessagePaginator(Tricks $trick, int $limit, int $page): Paginator
     {
-        $query = $this->createQueryBuilder('m')
+        $q = $this->createQueryBuilder('m')
             ->andWhere('m.trick = :trick')
             ->setParameter('trick', $trick)
             ->orderBy('m.createdAt', 'DESC')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit)
             ->getQuery()
         ;
 
-        return new Paginator($query);
+        return new Paginator($q);
     }
 
+    public function getMessageCount(Tricks $trick)
+    {
+        $query = $this->createQueryBuilder('m')
+            ->select('COUNT(m)')
+            ->andWhere('m.trick = :trick')
+            ->setParameter('trick', $trick)
+        ;
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
     // /**
     //  * @return Message[] Returns an array of Message objects
     //  */
