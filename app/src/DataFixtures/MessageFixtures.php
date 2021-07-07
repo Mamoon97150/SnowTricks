@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataFixtures;
-
 
 use App\Entity\Message;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -19,7 +17,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
         // OLLIE
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageOllieJohn = new Message();
             $messageOllieJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -28,7 +26,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageOllieJohn);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageOllieJane = new Message();
             $messageOllieJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -36,11 +34,10 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 ->setCreatedAt()
             ;
             $manager->persist($messageOllieJane);
-
         }
 
         // AIR-TO-FAKIE
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageFakieJane = new Message();
             $messageFakieJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -49,7 +46,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageFakieJane);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageFakieJohn = new Message();
             $messageFakieJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -60,7 +57,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // WHEELIE
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageWheelieJohn = new Message();
             $messageWheelieJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -69,7 +66,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageWheelieJohn);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageWheelieJane = new Message();
             $messageWheelieJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -80,7 +77,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // BUTTERS
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageButtersJane = new Message();
             $messageButtersJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -89,7 +86,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageButtersJane);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageButtersJohn = new Message();
             $messageButtersJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -100,7 +97,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // NOSE AN TAILS ROLLS
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageNoseJohn = new Message();
             $messageNoseJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -109,7 +106,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageNoseJohn);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageNoseJane = new Message();
             $messageNoseJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -120,7 +117,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // 50/50
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageFiftyJane = new Message();
             $messageFiftyJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -129,7 +126,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageFiftyJane);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageFiftyJohn = new Message();
             $messageFiftyJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -140,7 +137,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // 5-0
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageFiveJohn = new Message();
             $messageFiveJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -149,7 +146,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageFiveJohn);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageFiveJane = new Message();
             $messageFiveJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -160,7 +157,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // ROCK-N-ROLL
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageRockJane = new Message();
             $messageRockJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -169,7 +166,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageRockJane);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageRockJohn = new Message();
             $messageRockJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -180,7 +177,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // ALLEY OOPS
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageAlleyJohn = new Message();
             $messageAlleyJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -189,7 +186,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageAlleyJohn);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageAlleyJane = new Message();
             $messageAlleyJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -200,7 +197,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // BACKSIDE 720
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $messageBacksideJane = new Message();
             $messageBacksideJane->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JANE))
@@ -209,7 +206,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($messageBacksideJane);
         }
-        for ($i = 0; $i < 3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             $messageBacksideJohn = new Message();
             $messageBacksideJohn->setContent($faker->text())
                 ->setUser($this->getReference(UserFixtures::JOHN))
@@ -231,5 +228,4 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             TricksFixtures::class
         ];
     }
-
 }

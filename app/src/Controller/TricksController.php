@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Medias;
 use App\Entity\Message;
@@ -43,6 +41,9 @@ class TricksController extends AbstractController
 
         if ($this->security->isGranted('ROLE_USER') && $form->isSubmitted() && $form->isValid()) {
             (new MessageController())->addMessage($form, $trick, $this);
+
+            $message = new Message();
+            $form = $this->createForm(MessageFormType::class, $message);
         }
 
         $page = (int)$request->query->get('page', 1);
@@ -53,7 +54,7 @@ class TricksController extends AbstractController
 
         $paginator = $messageRepository->getMessagePaginator($trick, $limit, $page);
 
-        if ($request->get('load')){
+        if ($request->get('load')) {
             return new JsonResponse([
                 'content' => $this->renderView('messages/_show.html.twig', ['messages' => $paginator,]),
                 'maxPage' => $maxPage
@@ -74,7 +75,6 @@ class TricksController extends AbstractController
 
 
         if ($this->security->isGranted('ROLE_USER') && $embedForm->isSubmitted() && $embedForm->isValid()) {
-
             $embed = $embedForm->getData();
 
             $embed->setExtension('link');
@@ -84,7 +84,7 @@ class TricksController extends AbstractController
             $entityManager->persist($embed);
             $entityManager->flush();
 
-            $this->addFlash('success', '<p class="text-center m-0">Your video was embedded to the trick !</p>');
+            $this->addFlash('success', '<p class="text-center text-white m-0">Your video was embedded to the trick !</p>');
         }
 
 
@@ -100,7 +100,6 @@ class TricksController extends AbstractController
             'page' => $page,
             'maxPage' => $maxPage
         ]);
-
     }
 
     /**
@@ -116,22 +115,18 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was created !</p>');
+            $this->addFlash('success', '<p class="text-center text-white m-0">'.$trick->getName().' was created !</p>');
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-
         }
 
         return $this->render('tricks/add.html.twig', [
             'createForm' => $form->createView(),
         ]);
-
     }
 
     /**
@@ -141,7 +136,7 @@ class TricksController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $this->addFlash('warning', '<p class="text-center m-0">'.$trick->getName().' was deleted ! </p>');
+        $this->addFlash('warning', '<p class="text-center text-white m-0">'.$trick->getName().' was deleted ! </p>');
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($trick);
@@ -149,7 +144,6 @@ class TricksController extends AbstractController
 
 
         return $this->redirectToRoute('app_home');
-
     }
 
     /**
@@ -163,15 +157,13 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was updated !</p>');
+            $this->addFlash('success', '<p class="text-center text-white m-0">'.$trick->getName().' was updated !</p>');
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-
         }
 
         $media = new Medias();
@@ -188,7 +180,6 @@ class TricksController extends AbstractController
 
 
         if ($this->security->isGranted('ROLE_USER') && $embedForm->isSubmitted() && $embedForm->isValid()) {
-
             $embed = $embedForm->getData();
 
             $embed->setExtension('link');
@@ -198,7 +189,7 @@ class TricksController extends AbstractController
             $entityManager->persist($embed);
             $entityManager->flush();
 
-            $this->addFlash('success', '<p class="text-center m-0">Your video was embedded to the trick !</p>');
+            $this->addFlash('success', '<p class="text-center text-white m-0">Your video was embedded to the trick !</p>');
         }
 
         $featured = (new MediaController($this->security))->getFeatured($trick, $this);
@@ -210,6 +201,5 @@ class TricksController extends AbstractController
             'embedForm' => $embedForm->createView(),
             'trick' => $trick
         ]);
-
     }
 }

@@ -16,7 +16,7 @@ class MessageController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $this->addFlash('warning', '<p class="text-center m-0">The message was deleted ! </p>');
+        $this->addFlash('warning', '<p class="text-center text-white m-0">The message was deleted ! </p>');
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($message);
@@ -26,7 +26,6 @@ class MessageController extends AbstractController
         return $this->redirectToRoute('trick_show', [
             'slug' => $message->getTrick()->getSlug()
         ]);
-
     }
 
     public function addMessage($form, $trick, AbstractController $controller): RedirectResponse
@@ -41,9 +40,8 @@ class MessageController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
-        $controller->addFlash('success', '<p class="text-center m-0">Your message was added to the discussion board, ' . $controller->getUser()->getUserIdentifier() . '!</p>');
+        $controller->addFlash('success', '<p class="text-center text-white m-0">Your message was added to the discussion board, ' . $controller->getUser()->getUserIdentifier() . '!</p>');
 
         return $controller->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-
     }
 }

@@ -5,7 +5,6 @@ export default class extends Controller {
         const Load = document.querySelector('.load');
         const Page = document.querySelector('.load .page');
 
-        document.querySelector('.loader').onclick = function (){
             const Form = new FormData(Load);
 
             //creating param (query string)
@@ -43,5 +42,5 @@ export default class extends Controller {
                 history.pushState({}, null, Url.pathname + '?page='+ (Page.value - 1) )
             }).catch(e => alert(e))
         }
-    }
+
 }

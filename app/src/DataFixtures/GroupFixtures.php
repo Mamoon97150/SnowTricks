@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataFixtures;
-
 
 use App\Entity\Group;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -10,7 +8,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class GroupFixtures extends Fixture
 {
-
     public const AERIAL_TRICKS_GROUP = "aerial";
     public const SURFACE_TRICKS_GROUP = "surface";
     public const RAILS_TRICKS_GROUP = "rails";

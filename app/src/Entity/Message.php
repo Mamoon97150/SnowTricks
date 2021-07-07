@@ -50,7 +50,7 @@ class Message
 
     public function setCreatedAt(): self
     {
-        $this->createdAt = date_create();;
+        $this->createdAt = date_create();
 
         return $this;
     }
@@ -90,5 +90,4 @@ class Message
 
         return $this;
     }
-
 }

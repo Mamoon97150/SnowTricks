@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Repository\GroupRepository;
 use App\Repository\TricksRepository;
@@ -27,13 +25,12 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, GroupRepository $groupRepository): Response
     {
-
         $page = (int)$request->query->getInt('page', 1);
         $limit = 6;
 
 
         $tricks= $this->tricksRepository->getTrickPaginator($page, $limit);
-        foreach ($tricks as $trick){
+        foreach ($tricks as $trick) {
             $trick->getMedias();
         }
 
@@ -44,7 +41,7 @@ class HomeController extends AbstractController
         $groups = $groupRepository->findAll();
 
 
-        if ($request->get('load')){
+        if ($request->get('load')) {
             return new JsonResponse([
                 'content' => $this->renderView('home/_tricks.html.twig', ['tricks' => $tricks, 'maxPage' => $maxPage, 'page' => $page]),
                 'maxPage' => $maxPage

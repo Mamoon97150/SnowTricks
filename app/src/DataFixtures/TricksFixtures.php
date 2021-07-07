@@ -124,7 +124,6 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::BOARDSLIDE_TRICK, $boardslide);
         $this->addReference(self::ALLEY_TRICK, $alley);
         $this->addReference(self::BACKSIDE_TRICK, $backside);
-
     }
 
     public function getDependencies(): array
