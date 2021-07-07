@@ -163,7 +163,6 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setUpdatedAt();
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);

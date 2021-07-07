@@ -35,6 +35,12 @@ Ouvrez un terminal a la racine du projet et eécutez les commandes suivantes :
 ```
 
 ### Installer la base de données
+```bash
+    php bin/console doctrine:database:create
+    php bin/console make:migration
+    php bin/console doctrine:migrations:migrate
+    php bin/console doctrine:fixtures:load
+```
 
 ### Lancer les tests
 
