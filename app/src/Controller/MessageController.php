@@ -24,7 +24,7 @@ class MessageController extends AbstractController
 
 
         return $this->redirectToRoute('trick_show', [
-            'id' => $message->getTrick()->getId()
+            'slug' => $message->getTrick()->getSlug()
         ]);
 
     }
@@ -43,7 +43,7 @@ class MessageController extends AbstractController
 
         $controller->addFlash('success', '<p class="text-center m-0">Your message was added to the discussion board, ' . $controller->getUser()->getUserIdentifier() . '!</p>');
 
-        return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        return $controller->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
 
     }
 }

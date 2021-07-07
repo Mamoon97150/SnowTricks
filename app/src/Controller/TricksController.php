@@ -124,7 +124,7 @@ class TricksController extends AbstractController
 
             $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was created !</p>');
 
-            return $this->redirectToRoute('app_home', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
 
         }
 

@@ -41,6 +41,8 @@ Ouvrez un terminal a la racine du projet et eécutez les commandes suivantes :
     php bin/console doctrine:migrations:migrate
     php bin/console doctrine:fixtures:load
 ```
+### Utilisateur 
+Il existe 2 utilisateur deaj crée dans la base de données
 
 ### Lancer les tests
 

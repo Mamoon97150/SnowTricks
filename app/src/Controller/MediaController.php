@@ -51,7 +51,7 @@ class MediaController extends AbstractController
 
             $controller->addFlash('success', '<p class="text-center m-0">Your media was added to the trick !</p>');
         }
-        return $controller->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        return $controller->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
     }
 
     public function getFeatured(Tricks $trick, AbstractController $param): ?object
@@ -79,7 +79,7 @@ class MediaController extends AbstractController
 
 
         return $this->redirectToRoute('trick_show', [
-            'id' => $media->getTrick()->getId()
+            'slug' => $media->getTrick()->getSlug()
         ]);
 
     }
@@ -117,7 +117,7 @@ class MediaController extends AbstractController
 
                 $this->addFlash('success', '<p class="text-center m-0">This media was updated !</p>');
             }
-            return $this->redirectToRoute('trick_edit', ['id' => $media->getTrick()->getId()]);
+            return $this->redirectToRoute('trick_edit', ['slug' => $media->getTrick()->getSlug()]);
 
         }
 
