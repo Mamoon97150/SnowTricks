@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\EntityListener;
-
-
 
 use App\Entity\Tricks;
 use Doctrine\ORM\Event\LifecycleEventArgs;

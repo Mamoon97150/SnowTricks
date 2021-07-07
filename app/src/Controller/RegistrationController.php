@@ -53,7 +53,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('mamoon97150@gmail.com', 'Test'))
                     ->to($user->getEmail())
@@ -85,7 +87,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', '<p class="text-center m-0">Your email address has been verified.</p>');
+        $this->addFlash('success', '<p class="text-center text-white m-0">Your email address has been verified.</p>');
 
         return $this->redirectToRoute('app_home');
     }

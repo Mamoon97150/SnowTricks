@@ -42,7 +42,7 @@ Ouvrez un terminal a la racine du projet et eécutez les commandes suivantes :
     php bin/console doctrine:fixtures:load
 ```
 ### Utilisateur 
-Il existe 2 utilisateur deaj crée dans la base de données
+Il existe 2 utilisateur déjà crée dans la base de données : Jane2021(password1) et John2021(password2)
 
 ### Lancer les tests
 

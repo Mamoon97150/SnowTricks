@@ -44,7 +44,7 @@ class UserFixtures extends Fixture
             ->setIsVerified(true)
         ;
 
-        $password = $this->hasher->hashPassword($john, 'password1');
+        $password = $this->hasher->hashPassword($john, 'password2');
         $john->setPassword($password);
         $manager->persist($john);
 

@@ -70,7 +70,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('picture', FileType::class, [
+            ->add(
+                'picture',
+                FileType::class,
+                [
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -85,7 +88,6 @@ class RegistrationFormType extends AbstractType
                     ])
                 ]
                 ]
-
             )
         ;
     }

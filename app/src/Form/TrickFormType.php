@@ -18,22 +18,24 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class,[
+            ->add('name', TextType::class, [
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a name for this trick',
                     ]),
                 ],
             ])
-            ->add('description', TextareaType::class,[
+            ->add('description', TextareaType::class, [
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a description for this trick',
                     ]),
                 ],
             ])
-            ->add('group', EntityType::class,
-            [
+            ->add(
+                'group',
+                EntityType::class,
+                [
                 'class' => Group::class,
                 'choice_label' => 'name',
                 'constraints' => [
@@ -41,7 +43,8 @@ class TrickFormType extends AbstractType
                         'message' => 'Please enter a description for this trick',
                     ]),
                 ],
-            ])
+            ]
+            )
         ;
     }
 

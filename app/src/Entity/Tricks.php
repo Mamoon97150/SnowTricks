@@ -36,7 +36,7 @@ class Tricks
     private ?string $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="trick", orphanRemoval=true)
      */
     private $messages;
 
@@ -46,7 +46,7 @@ class Tricks
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick", orphanRemoval=true)
      */
     private $medias;
 
