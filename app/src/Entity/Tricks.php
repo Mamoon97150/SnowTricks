@@ -14,6 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  * @ORM\Entity(repositoryClass=TricksRepository::class)
  * @UniqueEntity("name", message="This trick already exist !")
  * @UniqueEntity("slug")
+ * @ORM\HasLifecycleCallbacks
  */
 class Tricks
 {
@@ -209,9 +210,7 @@ class Tricks
 
     public function makeSlug(SluggerInterface $slugger)
     {
-        if (!$this->slug || '-' === $this->slug){
-            $this->slug = (string) $slugger->slug((string)$this)->lower();
-        }
+        $this->slug = (string) $slugger->slug((string)$this)->lower();
     }
 
     public function __toString(): string

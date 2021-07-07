@@ -104,7 +104,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/add", name="trick_add")
+     * @Route("/trick/add", name="trick_add")
      */
     public function addTrick(Request $request): Response
     {
@@ -117,8 +117,6 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $trick->setCreatedAt();
-            $trick->setUpdatedAt();
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
@@ -126,7 +124,7 @@ class TricksController extends AbstractController
 
             $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was created !</p>');
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('app_home', ['id' => $trick->getId()]);
 
         }
 
@@ -173,7 +171,7 @@ class TricksController extends AbstractController
 
             $this->addFlash('success', '<p class="text-center m-0">'.$trick->getName().' was updated !</p>');
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
 
         }
 

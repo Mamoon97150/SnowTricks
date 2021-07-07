@@ -1,14 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block main %}
     <main class="container-fluid  p-0" style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
-        <section class="row col-10 gy-3 bg-white mx-auto ">
-            <div>
-                medias
-
-            </div>
-        </section>
         <section class="row col-10 gy-3 bg-white mx-auto px-4">
-            {#TODO: add form errors#}
             <h1 class="h3 mb-3 font-weight-normal">Add</h1>
             {{ form_start(createForm, { 'attr': {'novalidate': 'novalidate'}}) }}
             <div class="form-group form-floating mb-3">
