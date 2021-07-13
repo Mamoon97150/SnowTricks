@@ -8,10 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
  * @UniqueEntity("name", message="This trick already exist !")
+ * @UniqueEntity("slug")
+ * @ORM\HasLifecycleCallbacks
  */
 class Tricks
 {
@@ -33,7 +36,7 @@ class Tricks
     private ?string $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="trick", orphanRemoval=true)
      */
     private $messages;
 
@@ -43,7 +46,7 @@ class Tricks
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="trick", orphanRemoval=true)
      */
     private $medias;
 
@@ -53,9 +56,14 @@ class Tricks
     private ?DateTimeInterface $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -186,5 +194,27 @@ class Tricks
         $this->updatedAt = date_create();
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function makeSlug(SluggerInterface $slugger)
+    {
+        $this->slug = (string) $slugger->slug((string)$this)->lower();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

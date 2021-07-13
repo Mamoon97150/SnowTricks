@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     profile_directory: '%kernel.project_dir%/public/uploads/profile'
+    media_directory: '%kernel.project_dir%/public/uploads/medias'
 
 services:
     # default configuration for services in *this* file
@@ -34,3 +35,12 @@ services:
     App\Service\ProfileUploader:
         arguments:
             $targetDirectory: '%profile_directory%'
+
+    App\Service\MediaUploader:
+        arguments:
+            $targetDirectory: '%media_directory%'
+
+    App\EntityListener\TrickEntityListener:
+        tags:
+            - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Tricks'}
+            - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Tricks'}

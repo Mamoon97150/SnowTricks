@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +19,27 @@ class TricksRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tricks::class);
+    }
+
+    public function getTrickPaginator(int $page, int $limit, $filters = null)
+    {
+        $q = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit)
+            ->getQuery()
+        ;
+
+        return $q->getResult();
+    }
+
+    public function getTrickCount()
+    {
+        $q = $this->createQueryBuilder('t')
+            ->select('COUNT(t)')
+        ;
+
+        return $q->getQuery()->getSingleScalarResult();
     }
 
     // /**
@@ -48,20 +70,4 @@ class TricksRepository extends ServiceEntityRepository
         ;
     }
     */
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findOneByIdJoinedToGroup(int $trickId): ?Tricks
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            "SELECT t, g
-            FROM App\Entity\Tricks t
-            INNER JOIN t.group g
-            WHERE t.id = :id"
-        )->setParameter('id', $trickId);
-
-        return $query->getOneOrNullResult();
-    }
 }

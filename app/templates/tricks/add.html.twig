@@ -1,16 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block main %}
     <main class="container-fluid  p-0" style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
-        <section class="row col-10 gy-3 bg-white mx-auto ">
-            <div>
-                medias
-
-            </div>
-        </section>
         <section class="row col-10 gy-3 bg-white mx-auto px-4">
             <h1 class="h3 mb-3 font-weight-normal">Add</h1>
             {{ form_start(createForm, { 'attr': {'novalidate': 'novalidate'}}) }}
-            {#{{ form(createForm) }}#}
             <div class="form-group form-floating mb-3">
                 {% if form_errors(createForm.name) %}
                     {{ form_widget(createForm.name, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter the tricks Name'}}) }}

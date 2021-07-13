@@ -1,22 +1,61 @@
 {% extends 'base.html.twig' %}
 {% block main %}
-    <main class="container-fluid p-0 " style='background: url({{ asset('build/images/background.jpg') }}) no-repeat center; background-size: cover'>
+    <main class="container-fluid p-0 show">
         <section class="col-10 bg-white mx-auto">
-            <div class="">
-                <div class="row">
-                    <div {#style="background: url('{{ featured }}')"#} class="h-50 col-9">
-                        <h2 class="h2">{{ trick.name }}</h2>
-                    </div>
-                    <div class="d-flex align-items-center col-1">
-                        <a href="{{ path('trick_edit', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-pencil-alt"></i></a>
-                    </div>
-                    <div class="d-flex align-items-center col-1">
-                        <a href="{{ path('trick_delete', {id: trick.id}) }}" class="h4 text-dark"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                </div>
-                <div class="row">
 
+            <div
+                    {% if featured is not null %}
+                        style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover"
+                    {% endif%}
+            >
+                <div class="row">
+                    <div  class="col mx-auto featured d-flex">
+                        <h2 class="h2 align-self-center mx-auto bg-info text-white w-auto text-center">{{ trick.name }}</h2>
+                        <div class="float-start d-flex justify-content-around align-items-baseline mx-3 bg-info text-white tools">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <div class="d-flex align-items-center col-1 gx-5 text-white">
+                                    <a href="{{ path('trick_edit', {slug: trick.slug}) }}" class="h4 text-white"><i class="fas fa-pencil-alt"></i></a>
+                                </div>
+                                <div class="d-flex align-items-center col-1 gx-3 text-white" {{ stimulus_controller('modal-form') }}>
+                                    <!-- Button trigger modal -->
+                                    <a href="#" class="h4 text-white" data-action="modal-form#openModal"><i class="fas fa-trash-alt"></i></a>
+                                    {% include('tricks/_delete.html.twig') %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="d-flex d-md-none justify-content-center my-3" id="toggleButton" {{ stimulus_controller('image') }}>
+                <button class="btn btn-outline-dark" data-action="image#toggle">See medias</button>
+            </div>
+            <div id="toggle">
+                <div class="align-items-center justify-content-center mx-2 my-4 flex-row flex-wrap d-none d-md-flex ">
+                    {% for media in trick.medias %}
+                        {% if media.featured == false %}
+                            {% if media.extension == 'mp4' %}
+                                <video controls width="250" class="col-md-auto media me-md-2 my-2 align-self-baseline w-auto">
+                                    <source src="{{ asset('uploads/medias/' ~ media.name) }}" type="video/mp4">
+                                </video>
+                            {% elseif media.extension == 'link' %}
+                                <div class="col-md-auto media me-md-2 my-2 align-self-baseline w-auto" style="height: 250px; width: auto">
+                                    {{ media.name | raw }}
+                                </div>
+
+                            {% else %}
+                                <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="picture{{ media.name }}" width="250" height="250" class="col-md-auto media me-md-2 my-2">
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div {{ stimulus_controller('modal-form') }} class="col-auto g-3 my-5 d-none d-md-flex justify-content-center" id="addMedia">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-info" data-action="modal-form#openModal">Add media</button>
+                        {% include('media/_addMedia.html.twig') %}
+
+                    </div>
+                {% endif %}
             </div>
             <div class="row">
                 <div class="col-8 mx-auto">
@@ -29,18 +68,54 @@
                     <span class="badge bg-secondary">
                         {{ trick.createdAt | date }}
                     </span>
-                    {% if trick.createdAt != trick.updatedAt %}
+                    {% if trick.createdAt != trick.updatedAt and  trick.updatedAt is not null %}
                         <span class="badge bg-secondary">
                             {{ trick.updatedAt | date }}
                         </span>
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                {# TODO: discussion form #}
-            </div>
-            <div class="row">
-                {# TODO: discussion list #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="row justify-content-center border-bottom border-top col-md-9 mx-auto my-4">
+                    {% for flashError in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                    {% endfor %}
+                    {{ form_start(messageForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="form-group form-floating mb-3">
+                            {% if form_errors(messageForm.content) %}
+                                {{ form_widget(messageForm.content, {'attr': {'class': 'form-control underlined is-invalid', 'placeholder': 'Enter your Last Name', 'style': 'height: 15em'}}) }}
+                            {% else %}
+                                {{ form_widget(messageForm.content, {'attr': {'class': 'form-control underlined', 'placeholder': 'Enter your Last Name', 'style': 'height: 15em'}}) }}
+                            {% endif %}
+                            {{ form_label(messageForm.content, 'Comment') }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(messageForm.content) }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 d-grid gap-2">
+                            <button type="submit" class="btn btn-info">Leave a Comment</button>
+                        </div>
+                    {{ form_end(messageForm) }}
+                </div>
+            {% endif %}
+            <div class="row px-5 my-4 col-md-9 mx-auto">
+                {% if messages|length > 0 %}
+                    <p>There are {{ messages|length }} messages.</p>
+                    <ul class="loadBlock">
+                        {% include "messages/_show.html.twig" %}
+                    </ul>
+                    {% if messages|length > 10 %}
+                        <div class="text-center loadButton" {{ stimulus_controller('load-more') }} >
+                            <form class="load">
+                                <input type="hidden" name="page" value="{{ page + 1 }}" class="page">
+                                <button type="button" name="loader" class="btn btn-outline-dark loader" data-action="load-more#addPage">Load more ..</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div>No messages have been posted yet for this trick.</div>
+                {% endif %}
             </div>
         </section>
+    </main>
 {% endblock %}

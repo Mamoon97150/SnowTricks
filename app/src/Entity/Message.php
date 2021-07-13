@@ -6,7 +6,7 @@ use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MessageRepository", repositoryClass=MessageRepository::class)
+ * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
 class Message
 {
@@ -22,10 +22,6 @@ class Message
      */
     private ?\DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?\DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -52,21 +48,9 @@ class Message
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = date_create();
 
         return $this;
     }
@@ -106,5 +90,4 @@ class Message
 
         return $this;
     }
-
 }

@@ -28,6 +28,7 @@ services:
             dev:
 
     mysql-service:
+        platform: linux/x86_64
         image: mysql:latest
         container_name: mysql-container
         restart: always
@@ -46,7 +47,7 @@ services:
         depends_on:
             -   mysql-service
         ports:
-            - "8080:80"
+            - "8020:80"
         environment:
             - PMA_HOST=mysql-service
         networks:

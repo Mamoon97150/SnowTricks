@@ -1,0 +1,67 @@
+{% extends '_modal.html.twig' %}
+{% block content %}
+    <div class="modal-header border-0">
+        <h5 class="modal-title" id="mediaModalLabel">Add a media</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body" {{ stimulus_controller('media-type') }}>
+        <form class="text-center">
+            <div class="form-check form-check-inline">
+                <input type="radio" class="btn-check" id="check-image" autocomplete="off" value="image" name="type" data-action="media-type#filter">
+                <label class="btn btn-outline-dark" for="check-image">From files</label><br>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="btn-check" id="check-video"  autocomplete="off" value="video" name="type" data-action="media-type#filter">
+                <label class="btn btn-outline-dark" for="check-video">Embedded</label><br>
+            </div>
+        </form>
+        <div class="d-none" id="toggleImage">
+            {{ form_start(mediaForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="form-group mb-3">
+                {% if form_errors(mediaForm.name) %}
+                    {{ form_widget(mediaForm.name, {'attr': {'class': 'form-control is-invalid', 'placeholder': 'Enter the file'}}) }}
+                {% else %}
+                    {{ form_widget(mediaForm.name, {'attr': {'class': 'form-control', 'placeholder': 'enter the file'}}) }}
+                {% endif %}
+                <div class="invalid-feedback">
+                    {{ form_errors(mediaForm.name) }}
+                </div>
+            </div>
+            <div class="form-group mb-3 text-end">
+                {% if form_errors(mediaForm.featured) %}
+                    {{ form_widget(mediaForm.featured, {'attr': {'class': 'form-check-input is-invalid'}}) }}
+                {% else %}
+                    {{ form_widget(mediaForm.featured, {'attr': {'class': 'form-check-input'}}) }}
+                {% endif %}
+                {{ form_label(mediaForm.featured, 'Mark as featured') }}
+                <div class="invalid-feedback">
+                    {{ form_errors(mediaForm.featured) }}
+                </div>
+            </div>
+            <div class="form-group mb-3 gap-2 text-center">
+                <button type="button" class="btn btn-danger col-5" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info col-5">Add</button>
+            </div>
+            {{ form_end(mediaForm) }}
+        </div>
+        <div class="d-none" id="toggleVideo">
+            <p class="text-warning"> Please make sure the height is set to 250 and that there are no width specified !</p>
+            {{ form_start(embedForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="form-group mb-3">
+                {% if form_errors(embedForm.name) %}
+                    {{ form_widget(embedForm.name, {'attr': {'class': 'form-control is-invalid', 'placeholder': 'Enter the file'}}) }}
+                {% else %}
+                    {{ form_widget(embedForm.name, {'attr': {'class': 'form-control', 'placeholder': 'enter the file'}}) }}
+                {% endif %}
+                <div class="invalid-feedback">
+                    {{ form_errors(embedForm.name) }}
+                </div>
+            </div>
+            <div class="form-group mb-3 gap-2 text-center">
+                <button type="button" class="btn btn-danger col-5" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info col-5">Add</button>
+            </div>
+            {{ form_end(embedForm) }}
+        </div>
+    </div>
+{% endblock %}

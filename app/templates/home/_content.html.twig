@@ -1,0 +1,9 @@
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 align-items-stretch g-4 py-5 loadBlock">
+    {% include('home/_tricks.html.twig') %}
+</div>
+<div class="text-center loadButton" {{ stimulus_controller('load-more') }}>
+    <form class="load">
+        <input type="hidden" name="page" value="{{ page + 1 }}" class="page">
+        <button type="button" name="loader" class="btn btn-outline-dark loader" data-action="load-more#addPage">Load more ..</button>
+    </form>
+</div>

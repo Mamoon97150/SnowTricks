@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit a media{% endblock %}
+
+{% block main %}
+    <main class="container-fluid p-0 auth justify-content-center">
+        <div class="auth-container align-items-center justify-content-center">
+            <div class="card">
+                <div class="auth-content">
+                    {#{% for flashError in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                    {% endfor %}#}
+                    <h1 class="h3 mb-3 font-weight-normal">Edit a media</h1>
+                    <div class="row mb-5">
+                        {% if media.extension == 'mp4' %}
+                            <video controls width="250" class="col-md-auto media me-md-2 align-self-baseline">
+                                <source src="{{ asset('uploads/medias/' ~ media.name) }}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <img src="{{ asset('uploads/medias/' ~ media.name) }}" alt="pictureOllie" width="250" class="col-md-auto media me-md-2">
+                        {% endif %}
+                    </div>
+                    {{ form_start(imgForm, { 'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="form-group mb-3">
+                        {% if form_errors(imgForm.name) %}
+                            {{ form_widget(imgForm.name, {'attr': {'class': 'form-control is-invalid', 'placeholder': 'Enter the file'}}) }}
+                        {% else %}
+                            {{ form_widget(imgForm.name, {'attr': {'class': 'form-control', 'placeholder': 'enter the file'}}) }}
+                        {% endif %}
+                        <div class="invalid-feedback">
+                            {{ form_errors(imgForm.name) }}
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 text-end">
+                        {% if form_errors(imgForm.featured) %}
+                            {{ form_widget(imgForm.featured, {'attr': {'class': 'form-check-input is-invalid'}}) }}
+                        {% else %}
+                            {{ form_widget(imgForm.featured, {'attr': {'class': 'form-check-input'}}) }}
+                        {% endif %}
+                        {{ form_label(imgForm.featured, 'Mark as featured') }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(imgForm.featured) }}
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 gap-2 text-center">
+                        <a href="{{ path('trick_edit', {slug: media.trick.slug}) }}" class="btn btn-danger col-5 text-white">Back to trick</a>
+                        <button type="submit" class="btn btn-info col-5">Edit</button>
+                    </div>
+                    {{ form_end(imgForm) }}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
