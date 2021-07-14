@@ -7,8 +7,8 @@ $info: rgba(7, 7, 7, 0.25);
 # General
 -------------------------------------------------------------- */
 body {
-  font-family: "Open Sans", sans-serif;
   color: #444;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -27,18 +27,17 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .hero {
-  width: 100%;
-  height: 100vh;
-  background: url("../img/background.jpg") no-repeat center;
+  background: url('../img/background.jpg') no-repeat center;
   background-size: cover;
+  height: 100vh;
+  width: 100%;
 }
 
-.custom
-{
+.custom {
   height: 30vh;
 }
 
@@ -47,11 +46,12 @@ h6 {
 }
 
 .flash-warning {
-  background-color: #C82829;
+  background-color: #c82829;
 }
 
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 
@@ -74,21 +74,21 @@ textarea {
 
   &.has-error {
     span.has-error {
-      color: #FF4444;
-      font-size: 13px;
+      color: #f44;
       display: block !important;
+      font-size: 13px;
     }
 
     .form-control-feedback {
-      color: #FF4444;
+      color: #f44;
     }
   }
 
   &.has-warning {
     span.has-warning {
       color: #fe974b;
-      font-size: 13px;
       display: block !important;
+      font-size: 13px;
     }
 
     .form-control-feedback {
@@ -99,8 +99,8 @@ textarea {
   &.has-success {
     span.has-success {
       color: #4bcf99;
-      font-size: 13px;
       display: block !important;
+      font-size: 13px;
     }
 
     .form-control-feedback {
@@ -124,15 +124,15 @@ textarea {
   }
 
   span.input-group-addon {
-    font-style: italic;
+    background-color: #d7dde4;
     border: none;
     border-radius: 0;
-    background-color: #d7dde4;
-    transition: background-color ease-in-out 15s, color ease-in-out .15s;
+    font-style: italic;
+    transition: background-color ease-in-out 15s, color ease-in-out 0.15s;
 
     &.focus {
-      background-color: #85CE36;
-      color: #ffffff;
+      background-color: #85ce36;
+      color: #fff;
     }
   }
 }
@@ -143,15 +143,15 @@ label,
 }
 
 .form-control.underlined {
+  border: none;
+  border-bottom: 1px solid #d7dde4;
+  border-radius: 0;
+  box-shadow: none;
   padding-left: 0;
   padding-right: 0;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  border-bottom: 1px solid #d7dde4;
 
   &.indented {
-    padding: .375rem .75rem;
+    padding: 0.375rem 0.75rem;
   }
 
   .has-error &:focus,
@@ -159,23 +159,23 @@ label,
   .has-success &:focus,
   &:focus {
     border: none;
+    border-bottom: 1px solid #85ce36;
     box-shadow: none;
-    border-bottom: 1px solid #85CE36;
   }
 
   .has-error & {
+    border-color: #f44;
     box-shadow: none;
-    border-color: #FF4444;
   }
 
   .has-warning & {
-    box-shadow: none;
     border-color: #fe974b;
+    box-shadow: none;
   }
 
   .has-success & {
-    box-shadow: none;
     border-color: #4bcf99;
+    box-shadow: none;
   }
 }
 
@@ -184,7 +184,7 @@ label,
   box-shadow: none;
 
   &:focus {
-    border: 1px solid #85CE36;
+    border: 1px solid #85ce36;
   }
 }
 
@@ -196,80 +196,83 @@ label,
     padding: 0 10px 0 0;
   }
 
-  & + span:before {
-    font-family: FontAwesome;
-    font-size: 21px;
-    display: inline-block;
-    vertical-align: middle;
-    letter-spacing: 10px;
+  & + span::before {
     color: darken(#d7dde4, 5%);
+    display: inline-block;
+    font-family: FontAwesome, serif;
+    font-size: 21px;
+    letter-spacing: 10px;
+    vertical-align: middle;
   }
 
-  &:checked + span:before {
-    color: #85CE36;
+  &:checked + span::before {
+    color: #85ce36;
   }
 
-  &:disabled + span:before {
-    opacity: 0.5;
+  &:disabled + span::before {
     cursor: not-allowed;
+    opacity: 0.5;
   }
 
-  &:checked:disabled  + span:before {
+  &:checked:disabled  + span::before {
     color: darken(#d7dde4, 5%);
   }
 }
 
 .checkbox {
-
-  & + span:before {
-    content: "\f0c8";
+  & + span::before {
+    content: '\f0c8';
   }
 
-  &:checked + span:before {
-    content: "\f14a";
+  &:checked + span::before {
+    content: '\f14a';
   }
 
   &.rounded {
-    & + span:before {
-      content: "\f111";
+    & + span::before {
+      content: '\f111';
     }
 
-    &:checked + span:before {
-      content: "\f058";
+    &:checked + span::before {
+      content: '\f058';
     }
   }
 }
 
 .radio {
-
-  & + span:before {
-    content: "\f111";
+  & + span::before {
+    content: '\f111';
   }
 
-  &:checked + span:before {
-    content: "\f192";
+  &:checked + span::before {
+    content: '\f192';
   }
 
   &.squared {
-    & + span:before {
-      content: "\f0c8";
+    & + span::before {
+      content: '\f0c8';
     }
 
-    &:checked + span:before {
-      content: "\f14a";
+    &:checked + span::before {
+      content: '\f14a';
     }
   }
 
 }
 
-.auth, .show {
-  background: url("../img/bg-1.jpg") no-repeat center;
+.auth,
+.show {
+  background: url('../img/bg-1.jpg') no-repeat center;
   background-size: cover;
   display: flex;
 ;
 }
 
 .auth-container {
+  display: flex;
+  min-height: 100vh;
+
+  width: 650px;
 
   a {
     color: #34b7a7;
@@ -281,27 +284,23 @@ label,
     text-decoration: none;
   }
 
-  width: 650px;
-  min-height: 100vh;
-  display: flex;
-
   .auth-header {
-    text-align: center;
     border-bottom: 1px solid;
+    text-align: center;
   }
 
   .auth-title {
-    color: #97A4B1;
-    padding: 20px;
-    line-height: 30px;
+    color: #97a4b1;
     font-size: 26px;
     font-weight: 600;
+    line-height: 30px;
     margin: 0;
+    padding: 20px;
   }
 
   .auth-content {
-    padding: 30px 50px;
     min-height: 260px;
+    padding: 30px 50px;
   }
 
   .forgot-btn {
@@ -325,25 +324,24 @@ label,
 
 @media (max-width: 767.98px) {
   header {
-    position: fixed!important;
-    left: 0!important;
-    right: 0!important;
-    bottom: 0!important;
-    z-index: 1030!important;
+    bottom: 0 !important;
+    left: 0 !important;
+    position: fixed !important;
+    right: 0 !important;
+    z-index: 1030 !important;
   }
 
-  .custom
-  {
-    height: 35vh!important;
+  .custom {
+    height: 35vh !important;
   }
 
   .auth-container {
-    width: 100%;
-    position: relative;
     left: 0;
+    margin: 0 0 10px;
+    position: relative;
     top: 0;
     transform: inherit;
-    margin: 0 0 10px;
+    width: 100%;
 
     .auth-content {
       padding: 30px 25px;
@@ -351,7 +349,8 @@ label,
   }
 
 }
-.featured{
+
+.featured {
   height: 40vh;
 }
 
@@ -359,12 +358,12 @@ label,
   max-height: 40vh;
   max-width: 40vh;
 }
-.trick-bg
-{
-  background: cadetblue;
+
+.trick-bg {
+  background: #5F9EA0FF;
 }
 
-.profile{
+.profile {
   max-height: 10em;
 }
 
