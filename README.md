@@ -1,3 +1,4 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1d68e70d09f141619ec938e7cbe94d59)](https://www.codacy.com/gh/Mamoon97150/SnowTricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Mamoon97150/SnowTricks&amp;utm_campaign=Badge_Grade)
 # SnowTricks
 
 Snowtricks est un site collaboratif pour faire connaître le snowboard auprès du grand public et aider à l'apprentissage des figures (tricks).
