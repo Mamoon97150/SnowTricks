@@ -6,6 +6,8 @@
             <div
                     {% if featured is not null %}
                         style="background: url('{{ asset('uploads/medias/' ~ featured.name) }}') no-repeat center; background-size: cover"
+                    {% else %}
+                        style="background: url('{{ asset('uploads/medias/anon-snowboarder.jpg') }}') no-repeat center; background-size: cover"
                     {% endif%}
             >
                 <div class="row">
